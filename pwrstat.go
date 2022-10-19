@@ -34,6 +34,7 @@ type DeviceStatus struct {
 	LastPowerEvent         string
 	LastPowerEventTime     time.Time
 	LastPowerEventDuration time.Duration
+	CollectionTime         time.Time `gorm:"primaryKey"`
 }
 
 var dateFormat = "2006/01/02 15:04:05"
@@ -107,6 +108,7 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, error) {
 		return DeviceStatus{}, fmt.Errorf("getLoad err: %w", err)
 	}
 
+	ds.CollectionTime = time.Now()
 	return ds, nil
 }
 
