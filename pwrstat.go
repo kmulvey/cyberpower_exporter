@@ -24,8 +24,8 @@ type DeviceStatus struct {
 	PowerSupplyBy          string // really enum
 	UtilityVoltage         int
 	OutputVoltage          int
-	BatteryCapacity        int // pct
-	RemainingRuntime       time.Duration
+	BatteryCapacity        int           // pct
+	RemainingRuntime       time.Duration `json:"RemainingRuntimeNano"`
 	LoadWatts              int
 	LoadPct                int
 	LineInteraction        string
@@ -33,8 +33,8 @@ type DeviceStatus struct {
 	TestResultTime         time.Time
 	LastPowerEvent         string
 	LastPowerEventTime     time.Time
-	LastPowerEventDuration time.Duration
-	CollectionTime         time.Time `gorm:"primaryKey"`
+	LastPowerEventDuration time.Duration `json:"LastPowerEventDurationNano"`
+	CollectionTime         time.Time     `gorm:"primaryKey"`
 }
 
 var dateFormat = "2006/01/02 15:04:05"
