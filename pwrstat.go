@@ -38,16 +38,16 @@ type DeviceStatus struct {
 }
 
 var dateFormat = "2006/01/02 15:04:05"
-var stateRegex = regexp.MustCompile("State\\.+.*")
-var powerSupplyRegex = regexp.MustCompile("Power Supply by\\.+.*")
-var utilityVoltageRegex = regexp.MustCompile("Utility Voltage\\.+\\s\\d+")
-var outputVoltageRegex = regexp.MustCompile("Output Voltage\\.+\\s\\d+")
-var batteryCapacityRegex = regexp.MustCompile("Battery Capacity\\.+\\s\\d+")
-var remainingRuntimeRegex = regexp.MustCompile("Remaining Runtime\\.+\\s\\d{1,3}\\smin\\.")
-var loadRegex = regexp.MustCompile("Load\\.+.*")
-var lineInteractionRegex = regexp.MustCompile("Line Interaction\\.+.*")
-var testResultRegex = regexp.MustCompile("Test Result\\.+.*")
-var lastPowerEventRegex = regexp.MustCompile("Last Power Event\\.+.*")
+var stateRegex = regexp.MustCompile(`State\.+.*`)
+var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+.*`)
+var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s\d+`)
+var outputVoltageRegex = regexp.MustCompile(`Output Voltage\.+\s\d+`)
+var batteryCapacityRegex = regexp.MustCompile(`Battery Capacity\.+\s\d+`)
+var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s\d{1,3}\smin\.`)
+var loadRegex = regexp.MustCompile(`Load\.+.*`)
+var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+.*`)
+var testResultRegex = regexp.MustCompile(`Test Result\.+.*`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+.*`)
 
 func getPowerStats(cmdPath string) (string, error) {
 
@@ -114,19 +114,19 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, error) {
 
 func getState(input string) string {
 	var row = strings.TrimSpace(stateRegex.FindString(input))
-	var re = regexp.MustCompile("State\\.+")
+	var re = regexp.MustCompile(`State\.+`)
 	return strings.TrimSpace(re.ReplaceAllString(row, ""))
 }
 
 func getPowerSupply(input string) string {
 	var row = strings.TrimSpace(powerSupplyRegex.FindString(input))
-	var re = regexp.MustCompile("Power Supply by\\.+")
+	var re = regexp.MustCompile(`Power Supply by\.+`)
 	return strings.TrimSpace(re.ReplaceAllString(row, ""))
 }
 
 func getUtilityVoltage(input string) (int, error) {
 	var row = strings.TrimSpace(utilityVoltageRegex.FindString(input))
-	var re, err = regexp.Compile("\\d+")
+	var re, err = regexp.Compile(`\d+`)
 	if err != nil {
 		return 0, err
 	}
@@ -135,7 +135,7 @@ func getUtilityVoltage(input string) (int, error) {
 
 func getOutputVoltage(input string) (int, error) {
 	var row = strings.TrimSpace(outputVoltageRegex.FindString(input))
-	var re, err = regexp.Compile("\\d+")
+	var re, err = regexp.Compile(`\d+`)
 	if err != nil {
 		return 0, err
 	}
@@ -144,7 +144,7 @@ func getOutputVoltage(input string) (int, error) {
 
 func getBatteryCapacity(input string) (int, error) {
 	var row = strings.TrimSpace(batteryCapacityRegex.FindString(input))
-	var re, err = regexp.Compile("\\d+")
+	var re, err = regexp.Compile(`\d+`)
 	if err != nil {
 		return 0, err
 	}
@@ -153,7 +153,7 @@ func getBatteryCapacity(input string) (int, error) {
 
 func getRemainingRuntime(input string) (time.Duration, error) {
 	var row = strings.TrimSpace(remainingRuntimeRegex.FindString(input))
-	var re, err = regexp.Compile("\\d{1,3}")
+	var re, err = regexp.Compile(`\d{1,3}`)
 	if err != nil {
 		return 0, err
 	}
@@ -166,8 +166,8 @@ func getRemainingRuntime(input string) (time.Duration, error) {
 
 func getLoad(input string) (int, int, error) {
 	var row = strings.TrimSpace(loadRegex.FindString(input))
-	var watt = regexp.MustCompile("\\d{1,4}\\sWatt")
-	var pctRe = regexp.MustCompile("\\(\\d{1,3}\\s\\%\\)")
+	var watt = regexp.MustCompile(`\d{1,4}\sWatt`)
+	var pctRe = regexp.MustCompile(`\(\d{1,3}\s\%\)`)
 
 	var wattStr = watt.FindString(row)
 	watts, err := strconv.Atoi(strings.TrimSpace(strings.ReplaceAll(wattStr, " Watt", "")))
@@ -176,7 +176,7 @@ func getLoad(input string) (int, int, error) {
 	}
 
 	var pctStr = pctRe.FindString(row)
-	var pctNum = regexp.MustCompile("\\d{1,3}")
+	var pctNum = regexp.MustCompile(`\d{1,3}`)
 	pct, err := strconv.Atoi(strings.TrimSpace(pctNum.FindString(pctStr)))
 	if err != nil {
 		return 0, 0, err
@@ -187,16 +187,15 @@ func getLoad(input string) (int, int, error) {
 
 func getLineInteraction(input string) string {
 	var row = strings.TrimSpace(lineInteractionRegex.FindString(input))
-	var re = regexp.MustCompile("Line Interaction\\.+")
+	var re = regexp.MustCompile(`Line Interaction\.+`)
 	return strings.TrimSpace(re.ReplaceAllString(row, ""))
 }
 
 func getTestResult(input string) (string, time.Time, error) {
-	var testResultRegex = regexp.MustCompile("Test Result\\.+.*")
 	var row = strings.TrimSpace(testResultRegex.FindString(input))
-	var leftSide = regexp.MustCompile("^Test Result\\.*\\s")
+	var leftSide = regexp.MustCompile(`^Test Result\.*\s`)
 	row = leftSide.ReplaceAllString(row, "")
-	var result = regexp.MustCompile("^.*\\sat")
+	var result = regexp.MustCompile(`^.*\sat`)
 
 	var dateStr = strings.TrimSpace(result.ReplaceAllString(row, ""))
 	var date, err = time.Parse(dateFormat, dateStr)
@@ -208,9 +207,8 @@ func getTestResult(input string) (string, time.Time, error) {
 }
 
 func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
-	var testResultRegex = regexp.MustCompile("Last Power Event\\.+.*")
-	var row = strings.TrimSpace(testResultRegex.FindString(input))
-	var leftSide = regexp.MustCompile("^Last Power Event\\.*\\s")
+	var row = strings.TrimSpace(lastPowerEventRegex.FindString(input))
+	var leftSide = regexp.MustCompile(`^Last Power Event\.*\s`)
 	row = leftSide.ReplaceAllString(row, "")
 
 	var result, right, found = strings.Cut(row, " at ")

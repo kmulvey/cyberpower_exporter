@@ -15,15 +15,24 @@ func webServer(addr string, db *gorm.DB) {
 		var ds, err = getLatest(db)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("error getting latest status, err: " + err.Error()))
+			_, err = w.Write([]byte("error getting latest status, err: " + err.Error()))
+			if err != nil {
+				log.Errorf("error sending http error: %s", err.Error())
+			}
 		}
 		js, err := json.Marshal(ds)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("error marshalling latest status to json, err: " + err.Error()))
+			_, err = w.Write([]byte("error marshalling latest status to json, err: " + err.Error()))
+			if err != nil {
+				log.Errorf("error sending http error: %s", err.Error())
+			}
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write(js)
+		_, err = w.Write(js)
+		if err != nil {
+			log.Errorf("error sending http response, error: %s", err.Error())
+		}
 	})
 
 	log.Infof("Server is running on port: %s", addr)

@@ -21,6 +21,6 @@ func insert(db *gorm.DB, ds DeviceStatus) error {
 
 func getLatest(db *gorm.DB) (DeviceStatus, error) {
 	var ds = new(DeviceStatus)
-	var result = db.First(ds)
+	var result = db.Last(ds)
 	return *ds, result.Error
 }
