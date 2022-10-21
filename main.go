@@ -37,4 +37,22 @@ func main() {
 		}
 		os.Exit(0)
 	}
+
+	var db, err = dbConnect("cp.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	out, err := getPowerStats(cmdPath)
+	if err != nil {
+		log.Fatal(err)
+	}
+	status, err := parsePowerStats(out)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := insert(db, status); err != nil {
+		log.Fatal(err)
+	}
 }
