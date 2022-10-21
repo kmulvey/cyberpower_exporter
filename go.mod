@@ -1,4 +1,4 @@
-module github.com/kmulvey/powerrecord
+module github.com/kmulvey/cpwatch
 
 go 1.19
 
