@@ -1,13 +1,10 @@
-# This is an example .goreleaser.yml file with some sensible defaults.
-# Make sure to check the documentation at https://goreleaser.com
 before:
   hooks:
-    # You may remove this if you don't use go modules.
     - go mod tidy
 builds:
   - id: cpwatch
-    main: ./main.go
-    binary: cpwatch
+    main: .
+    binary: imagedup
     env:
       - CGO_ENABLED=0
     ldflags:
