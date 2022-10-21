@@ -8,25 +8,24 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w
-      - -X go.szostok.io/version.version={{.Version}}
-      - -X go.szostok.io/version.buildDate={{.Date}}
+      - '-s -w'
+      - '-X go.szostok.io/version.version={{.Version}}'
+      - '-X go.szostok.io/version.buildDate={{.Date}}'
     goos:
       - linux
       - windows
       - darwin
-
 archives:
   - replacements:
+      '386': i386
       darwin: Darwin
       linux: Linux
       windows: Windows
-      386: i386
       amd64: x86_64
 checksum:
-  name_template: 'checksums.txt'
+  name_template: checksums.txt
 snapshot:
-  name_template: "{{ incpatch .Version }}-next"
+  name_template: '{{ incpatch .Version }}-next'
 changelog:
   sort: asc
   filters:
