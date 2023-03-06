@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"time"
 
 	"encoding/json"
 
@@ -36,5 +37,14 @@ func webServer(addr string, db *gorm.DB) {
 	})
 
 	log.Infof("Server is running on port: %s", addr)
-	log.Fatal(http.ListenAndServe(addr, nil))
+
+	var server = &http.Server{
+		Addr:         addr,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+	if err := server.ListenAndServe(); err != nil {
+		log.Fatal("http server error: ", err)
+	}
 }
