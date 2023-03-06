@@ -35,6 +35,7 @@ func TestParsePowerStats(t *testing.T) {
 	var status, device, err = parsePowerStats(testOutput)
 	assert.NoError(t, err)
 	assert.Equal(t, "Normal", status.State)
+
 	assert.Equal(t, "Utility Power", status.PowerSupplyBy)
 	assert.Equal(t, 122, status.UtilityVoltage)
 	assert.Equal(t, 122, status.OutputVoltage)

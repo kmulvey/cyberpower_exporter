@@ -24,7 +24,7 @@ type DeviceStatus struct {
 	PowerSupplyBy          string // really enum
 	UtilityVoltage         int
 	OutputVoltage          int
-	BatteryCapacity        int           // pct
+	BatteryCapacity        int           // pct out of 100
 	RemainingRuntime       time.Duration `json:"RemainingRuntimeNano"`
 	LoadWatts              int
 	LoadPct                int
@@ -38,22 +38,22 @@ type DeviceStatus struct {
 }
 
 // DeviceStatus regexs
-var stateRegex = regexp.MustCompile(`State\.+.*`)
-var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+.*`)
-var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s\d+`)
-var outputVoltageRegex = regexp.MustCompile(`Output Voltage\.+\s\d+`)
-var batteryCapacityRegex = regexp.MustCompile(`Battery Capacity\.+\s\d+`)
-var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s\d{1,3}\smin\.`)
-var loadRegex = regexp.MustCompile(`Load\.+.*`)
-var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+.*`)
-var testResultRegex = regexp.MustCompile(`Test Result\.+.*`)
-var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+.*`)
+var stateRegex = regexp.MustCompile(`State\.+\s([a-zA-Z]+)`)
+var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+\s([a-zA-Z ]+)`)
+var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s(\d+)\sV`)
+var outputVoltageRegex = regexp.MustCompile(`Output Voltage\.+\s(\d+)\sV`)
+var batteryCapacityRegex = regexp.MustCompile(`Battery Capacity\.+\s(\d+)\s\%`)
+var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\smin\.`)
+var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)`)
+var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)`)
+var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)\sfor\s(\d+)\s([a-zA-Z]+)\.`)
 
 // Device regexs
-var ModelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
-var FirmwareNumberRegex = regexp.MustCompile(`Firmware Number\.+\s([a-zA-Z0-9]+)`)
-var RatingVoltageRegex = regexp.MustCompile(`Rating Voltage\.+\s([0-9]+)\sV`)
-var RatingPowerWattsRegex = regexp.MustCompile(`Rating Power\.+\s([0-9]+)\sWatt\(([0-9]+)\sVA\)`)
+var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
+var firmwareNumberRegex = regexp.MustCompile(`Firmware Number\.+\s([a-zA-Z0-9]+)`)
+var ratingVoltageRegex = regexp.MustCompile(`Rating Voltage\.+\s(\d+)\sV`)
+var ratingPowerWattsRegex = regexp.MustCompile(`Rating Power\.+\s(\d+)\sWatt\((\d+)\sVA\)`)
 
 func getPowerStats(cmdPath string) (string, error) {
 
@@ -73,10 +73,21 @@ func getPowerStats(cmdPath string) (string, error) {
 func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 
 	var err error
-	var ds = DeviceStatus{
-		State:           getState(cmdOutput),
-		PowerSupplyBy:   getPowerSupply(cmdOutput),
-		LineInteraction: getLineInteraction(cmdOutput),
+	var ds = DeviceStatus{}
+
+	ds.State, err = getState(cmdOutput)
+	if err != nil {
+		return DeviceStatus{}, Device{}, fmt.Errorf("getState err: %w", err)
+	}
+
+	ds.PowerSupplyBy, err = getPowerSupply(cmdOutput)
+	if err != nil {
+		return DeviceStatus{}, Device{}, fmt.Errorf("getPowerSupply err: %w", err)
+	}
+
+	ds.LineInteraction, err = getLineInteraction(cmdOutput)
+	if err != nil {
+		return DeviceStatus{}, Device{}, fmt.Errorf("getLineInteraction err: %w", err)
 	}
 
 	ds.UtilityVoltage, err = getUtilityVoltage(cmdOutput)
@@ -106,12 +117,12 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 
 	ds.TestResult, ds.TestResultTime, err = getTestResult(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLoad err: %w", err)
+		return DeviceStatus{}, Device{}, fmt.Errorf("getTestResult err: %w", err)
 	}
 
 	ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLoad err: %w", err)
+		return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
 	}
 
 	ds.CollectionTime = time.Now()
@@ -144,137 +155,131 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 
 //////////////// Device Status
 
-func getState(input string) string {
-	var row = strings.TrimSpace(stateRegex.FindString(input))
-	var re = regexp.MustCompile(`State\.+`)
-	return strings.TrimSpace(re.ReplaceAllString(row, ""))
+func getState(input string) (string, error) {
+	var val, err = getDeviceInfoAsString(stateRegex, input, 1)
+	if err != nil {
+		return "", fmt.Errorf("unable to get the state, err %w", err)
+	}
+	return val, nil
 }
 
-func getPowerSupply(input string) string {
-	var row = strings.TrimSpace(powerSupplyRegex.FindString(input))
-	var re = regexp.MustCompile(`Power Supply by\.+`)
-	return strings.TrimSpace(re.ReplaceAllString(row, ""))
+func getPowerSupply(input string) (string, error) {
+	var val, err = getDeviceInfoAsString(powerSupplyRegex, input, 1)
+	if err != nil {
+		return "", fmt.Errorf("unable to get the power supply, err %w", err)
+	}
+	return val, nil
 }
 
 func getUtilityVoltage(input string) (int, error) {
-	var row = strings.TrimSpace(utilityVoltageRegex.FindString(input))
-	var re, err = regexp.Compile(`\d+`)
+	var output, err = getDeviceInfoAsInt(utilityVoltageRegex, input, 1)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("unable to find the utility voltage, err: %w", err)
 	}
-	return strconv.Atoi(strings.TrimSpace(re.FindString(row)))
+	return output, nil
 }
 
 func getOutputVoltage(input string) (int, error) {
-	var row = strings.TrimSpace(outputVoltageRegex.FindString(input))
-	var re, err = regexp.Compile(`\d+`)
+	var output, err = getDeviceInfoAsInt(outputVoltageRegex, input, 1)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("unable to find the output voltage, err: %w", err)
 	}
-	return strconv.Atoi(strings.TrimSpace(re.FindString(row)))
+	return output, nil
 }
 
 func getBatteryCapacity(input string) (int, error) {
-	var row = strings.TrimSpace(batteryCapacityRegex.FindString(input))
-	var re, err = regexp.Compile(`\d+`)
+	var cap, err = getDeviceInfoAsInt(batteryCapacityRegex, input, 1)
 	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("unable to find the battery capacity, err: %w", err)
 	}
-	return strconv.Atoi(strings.TrimSpace(re.FindString(row)))
+	return cap, nil
 }
 
 func getRemainingRuntime(input string) (time.Duration, error) {
-	var row = strings.TrimSpace(remainingRuntimeRegex.FindString(input))
-	var re, err = regexp.Compile(`\d{1,3}`)
+	var mins, err = getDeviceInfoAsInt(remainingRuntimeRegex, input, 1)
 	if err != nil {
-		return 0, err
-	}
-	mins, err := strconv.Atoi(strings.TrimSpace(re.FindString(row)))
-	if err != nil {
-		return 0, err
+		return 0, fmt.Errorf("unable to find the remaining runtime, err: %w", err)
 	}
 	return time.Duration(mins) * time.Minute, nil
 }
 
 func getLoad(input string) (int, int, error) {
-	var row = strings.TrimSpace(loadRegex.FindString(input))
-	var watt = regexp.MustCompile(`\d{1,4}\sWatt`)
-	var pctRe = regexp.MustCompile(`\(\d{1,3}\s\%\)`)
-
-	var wattStr = watt.FindString(row)
-	watts, err := strconv.Atoi(strings.TrimSpace(strings.ReplaceAll(wattStr, " Watt", "")))
+	var watts, err = getDeviceInfoAsInt(loadRegex, input, 1)
 	if err != nil {
-		return 0, 0, err
+		return 0, 0, fmt.Errorf("unable to find the load, err: %w", err)
 	}
 
-	var pctStr = pctRe.FindString(row)
-	var pctNum = regexp.MustCompile(`\d{1,3}`)
-	pct, err := strconv.Atoi(strings.TrimSpace(pctNum.FindString(pctStr)))
+	pct, err := getDeviceInfoAsInt(loadRegex, input, 2)
 	if err != nil {
-		return 0, 0, err
+		return 0, 0, fmt.Errorf("unable to find the load, err: %w", err)
 	}
 
 	return watts, pct, nil
 }
 
-func getLineInteraction(input string) string {
-	var row = strings.TrimSpace(lineInteractionRegex.FindString(input))
-	var re = regexp.MustCompile(`Line Interaction\.+`)
-	return strings.TrimSpace(re.ReplaceAllString(row, ""))
+func getLineInteraction(input string) (string, error) {
+	var val, err = getDeviceInfoAsString(lineInteractionRegex, input, 1)
+	if err != nil {
+		return "", fmt.Errorf("unable to get the line interaction, err %w", err)
+	}
+	return val, nil
 }
 
 func getTestResult(input string) (string, time.Time, error) {
-	var row = strings.TrimSpace(testResultRegex.FindString(input))
-	var leftSide = regexp.MustCompile(`^Test Result\.*\s`)
-	row = leftSide.ReplaceAllString(row, "")
-	var result = regexp.MustCompile(`^.*\sat`)
 
-	var dateStr = strings.TrimSpace(result.ReplaceAllString(row, ""))
-	var date, err = time.Parse(dateFormat, dateStr)
+	var result, err = getDeviceInfoAsString(testResultRegex, input, 1)
+	if err != nil {
+		return "", time.Time{}, fmt.Errorf("unable to find the last test result, err: %w", err)
+	}
+
+	dateStr, err := getDeviceInfoAsString(testResultRegex, input, 2)
+	if err != nil {
+		return "", time.Time{}, fmt.Errorf("unable to find the last test result, err: %w", err)
+	}
+
+	date, err := time.Parse(dateFormat, dateStr)
 	if err != nil {
 		return "", time.Time{}, err
 	}
 
-	return strings.ReplaceAll(result.FindString(row), " at", ""), date, nil
+	return result, date, nil
 }
 
 func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
-	var row = strings.TrimSpace(lastPowerEventRegex.FindString(input))
-	var leftSide = regexp.MustCompile(`^Last Power Event\.*\s`)
-	row = leftSide.ReplaceAllString(row, "")
 
-	var result, right, found = strings.Cut(row, " at ")
-	if !found {
-		return "", time.Time{}, 0, errors.New("did not find substring: ' at '")
+	var result, err = getDeviceInfoAsString(lastPowerEventRegex, input, 1)
+	if err != nil {
+		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
 	}
 
-	dateStr, durationStr, found := strings.Cut(right, " for ")
-	if !found {
-		return "", time.Time{}, 0, errors.New("did not find substring: ' for '")
+	dateStr, err := getDeviceInfoAsString(lastPowerEventRegex, input, 2)
+	if err != nil {
+		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
 	}
 
-	var date, err = time.Parse(dateFormat, dateStr)
+	date, err := time.Parse(dateFormat, dateStr)
 	if err != nil {
 		return "", time.Time{}, 0, err
 	}
 
-	durationNumStr, durationUnit, found := strings.Cut(durationStr, " ")
-	if !found {
-		return "", time.Time{}, 0, errors.New("did not find substring: ' '")
-	}
-	durationNum, err := strconv.Atoi(durationNumStr)
+	durationInt, err := getDeviceInfoAsInt(lastPowerEventRegex, input, 3)
 	if err != nil {
-		return "", time.Time{}, 0, err
+		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
+	}
+
+	durationUnit, err := getDeviceInfoAsString(lastPowerEventRegex, input, 4)
+	if err != nil {
+		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
 	}
 
 	var duration time.Duration
-	switch durationUnit {
-	case "sec.":
-		duration = time.Duration(durationNum) * time.Second
-	case "min.":
-		duration = time.Duration(durationNum) * time.Minute
+	switch strings.TrimSpace(durationUnit) {
+	case "sec":
+		duration = time.Duration(durationInt) * time.Second
+	case "min":
+		duration = time.Duration(durationInt) * time.Minute
 	default:
-		return "", time.Time{}, 0, fmt.Errorf("event duration has an unknown unit, input: %s", input)
+		return "", time.Time{}, 0, fmt.Errorf("event duration has an unknown unit, input: %s", durationUnit)
 	}
 
 	return result, date, duration, nil
@@ -282,18 +287,8 @@ func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 
 //////////////// Device
 
-func getDeviceInfoAsString(re *regexp.Regexp, input string) (string, error) {
-	var match = re.FindAllStringSubmatch(input, 1)
-	if len(match) == 1 {
-		if len(match[0]) == 2 {
-			return strings.TrimSpace(match[0][1]), nil
-		}
-	}
-	return "", errors.New("") // the real error is generated by the caller, this is just a signal
-}
-
 func getModelName(input string) (string, error) {
-	var val, err = getDeviceInfoAsString(ModelNameRegex, input)
+	var val, err = getDeviceInfoAsString(modelNameRegex, input, 1)
 	if err != nil {
 		return "", errors.New("unable to find the model name")
 	}
@@ -301,7 +296,7 @@ func getModelName(input string) (string, error) {
 }
 
 func getFirmwareNumber(input string) (string, error) {
-	var val, err = getDeviceInfoAsString(FirmwareNumberRegex, input)
+	var val, err = getDeviceInfoAsString(firmwareNumberRegex, input, 1)
 	if err != nil {
 		return "", errors.New("unable to find the firmware number")
 	}
@@ -309,36 +304,60 @@ func getFirmwareNumber(input string) (string, error) {
 }
 
 func getRatingVoltage(input string) (int, error) {
-	var match = RatingVoltageRegex.FindAllStringSubmatch(input, 1)
-	if len(match) == 1 {
-		if len(match[0]) == 2 {
-			var volts, err = strconv.Atoi(strings.TrimSpace(match[0][1]))
-			if err != nil {
-				return 0, fmt.Errorf("unable to find the rating power in watts, err: %w", err)
-			}
 
-			return volts, nil
-		}
+	var volts, err = getDeviceInfoAsInt(ratingVoltageRegex, input, 1)
+	if err != nil {
+		return 0, fmt.Errorf("unable to find the rating voltage, err: %w", err)
 	}
-	return 0, errors.New("unable to find the rating power in watts")
+	return volts, nil
 }
 
 func getRatingPowerWatts(input string) (int, int, error) {
-	var match = RatingPowerWattsRegex.FindAllStringSubmatch(input, 2)
+
+	var watts, err = getDeviceInfoAsInt(ratingPowerWattsRegex, input, 1)
+	if err != nil {
+		return 0, 0, fmt.Errorf("unable to find the rating power in watts, err: %w", err)
+	}
+
+	va, err := getDeviceInfoAsInt(ratingPowerWattsRegex, input, 2)
+	if err != nil {
+		return 0, 0, fmt.Errorf("unable to find the rating power in va, err: %w", err)
+	}
+
+	return watts, va, nil
+}
+
+//////////////// Common
+
+func getDeviceInfoAsString(re *regexp.Regexp, input string, groupID int) (string, error) {
+	var match = re.FindAllStringSubmatch(input, -1)
+
 	if len(match) == 1 {
-		if len(match[0]) == 3 {
-			var watts, err = strconv.Atoi(strings.TrimSpace(match[0][1]))
-			if err != nil {
-				return 0, 0, fmt.Errorf("unable to find the rating power in watts, err: %w", err)
+		if len(match[0]) >= 2 {
+			if len(match[0]) <= groupID {
+				return "", errors.New("groupID exceeds arr length")
 			}
-
-			va, err := strconv.Atoi(strings.TrimSpace(match[0][2]))
-			if err != nil {
-				return 0, 0, fmt.Errorf("unable to find the rating power in va, err: %w", err)
-			}
-
-			return watts, va, nil
+			return strings.TrimSpace(match[0][groupID]), nil
 		}
 	}
-	return 0, 0, errors.New("unable to find the rating power")
+
+	return "", errors.New("could not find any matches")
+}
+
+func getDeviceInfoAsInt(re *regexp.Regexp, input string, groupID int) (int, error) {
+	var match = re.FindAllStringSubmatch(input, -1)
+	if len(match) == 1 {
+		if len(match[0]) >= 2 {
+			if len(match[0]) <= groupID {
+				return 0, errors.New("groupID exceeds arr length")
+			}
+
+			var val, err = strconv.Atoi(strings.TrimSpace(match[0][groupID]))
+			if err != nil {
+				return 0, err
+			}
+			return val, nil
+		}
+	}
+	return 0, errors.New("could not find any matches")
 }
