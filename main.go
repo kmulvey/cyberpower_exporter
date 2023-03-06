@@ -2,11 +2,13 @@ package main
 
 import (
 	"flag"
+	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 
@@ -27,14 +29,17 @@ func main() {
 	signal.Notify(sigChannel, os.Interrupt, syscall.SIGTERM)
 
 	// get user opts
-	var cmdPath string
+	var cmdPath, httpAddr, promAddr, dbName string
 	var pollInterval time.Duration
-	var v, db, http, prom bool
+	var v, db, enableHttp, enableProm bool
 	flag.StringVar(&cmdPath, "cmd-path", "/usr/sbin/pwrstat", "absolute path to pwstat command")
+	flag.StringVar(&httpAddr, "http-addr", ":1000", "bind address of the http server")
+	flag.StringVar(&cmdPath, "prom-addr", ":1001", "bind address of the prom http server")
+	flag.StringVar(&dbName, "db-name", "cp.db", "name of the sqlite file")
 	flag.DurationVar(&pollInterval, "poll-interval", time.Minute, "time interval to gather power stats")
-	flag.BoolVar(&db, "db", false, "print version")
-	flag.BoolVar(&http, "http", false, "print version")
-	flag.BoolVar(&prom, "prom", false, "print version")
+	flag.BoolVar(&db, "db", false, "write to sqlite db")
+	flag.BoolVar(&enableHttp, "http", false, "turn of http server")
+	flag.BoolVar(&enableProm, "prom", false, "enable prom stats")
 	flag.BoolVar(&v, "version", false, "print version")
 	flag.BoolVar(&v, "v", false, "print version")
 
@@ -53,14 +58,30 @@ func main() {
 	var err error
 
 	if db {
-		dbHandle, err = dbConnect("cp.db")
+		dbHandle, err = dbConnect(dbName)
 		if err != nil {
 			log.Fatal(err)
 		}
 	}
 
-	if http {
-		go webServer(":8080", dbHandle)
+	if enableHttp {
+		go webServer(httpAddr, dbHandle)
+	}
+
+	if enableProm {
+		go func() {
+			http.Handle("/metrics", promhttp.Handler())
+
+			var server = &http.Server{
+				Addr:         promAddr,
+				ReadTimeout:  5 * time.Second,
+				WriteTimeout: 10 * time.Second,
+			}
+
+			if err := server.ListenAndServe(); err != nil {
+				log.Fatal("http server error: ", err)
+			}
+		}()
 	}
 
 	var ticker = time.NewTicker(pollInterval)
@@ -74,7 +95,7 @@ func main() {
 				log.Fatal(err)
 			}
 
-			status, _, err := parsePowerStats(out) // DEVICE
+			status, device, err := parsePowerStats(out)
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -85,8 +106,25 @@ func main() {
 				}
 			}
 
-			if prom {
+			if enableProm {
+				if status.State == "Normal" {
+					stateGauge.WithLabelValues(device.ModelName).Set(0)
+				} else if status.State == "Power Failure" {
+					stateGauge.WithLabelValues(device.ModelName).Set(1)
+				}
 
+				if status.PowerSupplyBy == "Utility Power" {
+					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
+				} else if status.State == "Battery Power" {
+					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
+				}
+
+				utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
+				outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
+				batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
+				remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
+				loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
+				loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
 			}
 
 		case <-sigChannel:
