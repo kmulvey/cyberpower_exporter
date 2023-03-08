@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -34,12 +35,12 @@ func main() {
 	var v, db, enableHttp, enableProm bool
 	flag.StringVar(&cmdPath, "cmd-path", "/usr/sbin/pwrstat", "absolute path to pwstat command")
 	flag.StringVar(&httpAddr, "http-addr", ":1000", "bind address of the http server")
-	flag.StringVar(&cmdPath, "prom-addr", ":1001", "bind address of the prom http server")
+	flag.StringVar(&promAddr, "prom-addr", ":9300", "bind address of the prom http server")
 	flag.StringVar(&dbName, "db-name", "cp.db", "name of the sqlite file")
 	flag.DurationVar(&pollInterval, "poll-interval", time.Minute, "time interval to gather power stats")
 	flag.BoolVar(&db, "db", false, "write to sqlite db")
 	flag.BoolVar(&enableHttp, "http", false, "turn of http server")
-	flag.BoolVar(&enableProm, "prom", false, "enable prom stats")
+	flag.BoolVar(&enableProm, "prom", true, "enable prom stats")
 	flag.BoolVar(&v, "version", false, "print version")
 	flag.BoolVar(&v, "v", false, "print version")
 
@@ -82,6 +83,7 @@ func main() {
 				log.Fatal("http server error: ", err)
 			}
 		}()
+		fmt.Println("started, go to grafana to monitor")
 	}
 
 	var ticker = time.NewTicker(pollInterval)
