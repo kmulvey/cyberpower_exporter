@@ -47,7 +47,7 @@ var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\
 var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)`)
 var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)`)
 var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)`)
-var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)\sfor\s(\d+)\s([a-zA-Z]+)\.`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)(\sfor\s(\d+)\s([a-zA-Z]+)\.)?`) //Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)\sfor\s(\d+)\s([a-zA-Z]+)\.`)
 
 // Device regexs
 var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
@@ -262,24 +262,27 @@ func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 		return "", time.Time{}, 0, err
 	}
 
-	durationInt, err := getDeviceInfoAsInt(lastPowerEventRegex, input, 3)
-	if err != nil {
-		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
-	}
-
-	durationUnit, err := getDeviceInfoAsString(lastPowerEventRegex, input, 4)
-	if err != nil {
-		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
-	}
-
 	var duration time.Duration
-	switch strings.TrimSpace(durationUnit) {
-	case "sec":
-		duration = time.Duration(durationInt) * time.Second
-	case "min":
-		duration = time.Duration(durationInt) * time.Minute
-	default:
-		return "", time.Time{}, 0, fmt.Errorf("event duration has an unknown unit, input: %s", durationUnit)
+	if regexp.MustCompile(`\sfor\s(\d+)\s([a-zA-Z]+)\.`).MatchString(input) { // we dont always get the duration part " for 3 sec."
+
+		durationInt, err := getDeviceInfoAsInt(lastPowerEventRegex, input, 3)
+		if err != nil {
+			return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
+		}
+
+		durationUnit, err := getDeviceInfoAsString(lastPowerEventRegex, input, 4)
+		if err != nil {
+			return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
+		}
+
+		switch strings.TrimSpace(durationUnit) {
+		case "sec":
+			duration = time.Duration(durationInt) * time.Second
+		case "min":
+			duration = time.Duration(durationInt) * time.Minute
+		default:
+			return "", time.Time{}, 0, fmt.Errorf("event duration has an unknown unit, input: %s", durationUnit)
+		}
 	}
 
 	return result, date, duration, nil
