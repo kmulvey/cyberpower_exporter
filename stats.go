@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	promNamespace = "radeon_exporter"
+	promNamespace = "cyber_power_exporter"
 
 	stateGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
 		Namespace: promNamespace,
