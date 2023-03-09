@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/prometheus/client_golang v1.14.0
 	github.com/sirupsen/logrus v1.9.0
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 	go.szostok.io/version v1.1.0
 	gorm.io/driver/sqlite v1.4.4
 	gorm.io/gorm v1.24.6
