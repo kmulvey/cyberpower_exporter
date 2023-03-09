@@ -121,12 +121,25 @@ func main() {
 					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
 				}
 
+				if status.LineInteraction == "None" {
+					lineInteractionGauge.WithLabelValues(device.ModelName).Set(0)
+				} else {
+					lineInteractionGauge.WithLabelValues(device.ModelName).Set(1)
+				}
+
+				if status.TestResult == "Passed" {
+					testResultGauge.WithLabelValues(device.ModelName).Set(0)
+				} else {
+					testResultGauge.WithLabelValues(device.ModelName).Set(1)
+				}
+
 				utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
 				outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
 				batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
 				remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
 				loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
 				loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
+				lastPowerEventDurationGauge.WithLabelValues(device.ModelName).Set(float64(status.LastPowerEventDuration.Seconds()))
 			}
 
 		case <-sigChannel:
