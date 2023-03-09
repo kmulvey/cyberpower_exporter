@@ -48,7 +48,7 @@ var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\
 var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)\n`)
 var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)\n`)
 var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)\n`)
-var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)(\sfor\s(\d+)\s([a-zA-Z]+)\.)?\n`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*?)(?:\sfor\s(\d+)\s([a-zA-Z]+)\.|$)`)
 
 // Device regexs
 var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
@@ -121,10 +121,10 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 		return DeviceStatus{}, Device{}, fmt.Errorf("getTestResult err: %w", err)
 	}
 
-	// ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
-	// if err != nil {
-	// 	return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
-	// }
+	ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
+	if err != nil {
+		return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
+	}
 
 	ds.CollectionTime = time.Now()
 
