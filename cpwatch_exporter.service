@@ -1,13 +1,13 @@
 [Unit]
 Description=Prometheus Exporter for CyberPower UPSs
-Documentation=github.com/kmulvey/cpwatch
+Documentation=https://github.com/kmulvey/cpwatch
 After=network-online.target
 
 [Service]
-User=prometheus
-Group=prometheus
+User=root
+Group=root
 Restart=on-failure
-ExecStart=/opt/cpwatch
+ExecStart=/opt/cpwatch -prom -prom-addr ":9300"
 
 [Install]
 WantedBy=multi-user.target
