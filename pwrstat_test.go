@@ -29,6 +29,28 @@ Current UPS status:
 	Last Power Event............. Blackout at 2022/09/24 12:12:24 for 3 sec.
 `
 
+var testFailOutput = `
+The UPS information shows as following:
+
+	Properties:
+		Model Name................... CP1500PFCLCDa
+		Firmware Number.............. CR01802B7H21
+		Rating Voltage............... 120 V
+		Rating Power................. 1000 Watt(1500 VA)
+
+	Current UPS status:
+		State........................ Power Failure
+		Power Supply by.............. Battery Power
+		Utility Voltage.............. 0 V
+		Output Voltage............... 120 V
+		Battery Capacity............. 82 %
+		Remaining Runtime............ 48 min.
+		Load......................... 150 Watt(15 %)
+		Line Interaction............. None
+		Test Result.................. Passed at 2023/03/06 10:12:45
+		Last Power Event............. Blackout at 2023/03/08 14:25:31
+`
+
 func TestParsePowerStats(t *testing.T) {
 	t.Parallel()
 

@@ -90,7 +90,6 @@ func main() {
 	for {
 		select {
 		case <-ticker.C:
-			log.Info("gathering stats")
 
 			out, err := getPowerStats(cmdPath)
 			if err != nil {
@@ -109,6 +108,7 @@ func main() {
 			}
 
 			if enableProm {
+
 				if status.State == "Normal" {
 					stateGauge.WithLabelValues(device.ModelName).Set(0)
 				} else if status.State == "Power Failure" {
@@ -117,7 +117,7 @@ func main() {
 
 				if status.PowerSupplyBy == "Utility Power" {
 					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
-				} else if status.State == "Battery Power" {
+				} else if status.PowerSupplyBy == "Battery Power" {
 					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
 				}
 

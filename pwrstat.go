@@ -38,16 +38,17 @@ type DeviceStatus struct {
 }
 
 // DeviceStatus regexs
-var stateRegex = regexp.MustCompile(`State\.+\s([a-zA-Z]+)`)
-var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+\s([a-zA-Z ]+)`)
-var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s(\d+)\sV`)
-var outputVoltageRegex = regexp.MustCompile(`Output Voltage\.+\s(\d+)\sV`)
-var batteryCapacityRegex = regexp.MustCompile(`Battery Capacity\.+\s(\d+)\s\%`)
-var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\smin\.`)
-var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)`)
-var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)`)
-var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)`)
-var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)(\sfor\s(\d+)\s([a-zA-Z]+)\.)?`) //Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)\sfor\s(\d+)\s([a-zA-Z]+)\.`)
+// $ does not work to find EOL, idk why, so we use \n
+var stateRegex = regexp.MustCompile(`State\.+\s([a-zA-Z\s]+)\n`)
+var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+\s([a-zA-Z\s]+)\n`)
+var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s(\d+)\sV\n`)
+var outputVoltageRegex = regexp.MustCompile(`Output Voltage\.+\s(\d+)\sV\n`)
+var batteryCapacityRegex = regexp.MustCompile(`Battery Capacity\.+\s(\d+)\s\%\n`)
+var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\smin\.\n`)
+var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)\n`)
+var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)\n`)
+var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)\n`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*)(\sfor\s(\d+)\s([a-zA-Z]+)\.)?\n`)
 
 // Device regexs
 var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
@@ -120,10 +121,10 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 		return DeviceStatus{}, Device{}, fmt.Errorf("getTestResult err: %w", err)
 	}
 
-	ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
-	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
-	}
+	// ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
+	// if err != nil {
+	// 	return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
+	// }
 
 	ds.CollectionTime = time.Now()
 
