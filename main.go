@@ -93,17 +93,19 @@ func main() {
 
 			out, err := getPowerStats(cmdPath)
 			if err != nil {
-				log.Fatal(err)
+				log.Error(err)
 			}
 
 			status, device, err := parsePowerStats(out)
 			if err != nil {
-				log.Fatal(err)
+				log.Error(err)
+				fmt.Println(out)
+				fmt.Println()
 			}
 
 			if db {
 				if err := insert(dbHandle, status); err != nil {
-					log.Fatal(err)
+					log.Error(err)
 				}
 			}
 
