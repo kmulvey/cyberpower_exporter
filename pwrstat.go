@@ -48,7 +48,7 @@ var remainingRuntimeRegex = regexp.MustCompile(`Remaining Runtime\.+\s(\d{1,3})\
 var loadRegex = regexp.MustCompile(`Load\.+\s(\d+)\sWatt\((\d+)\s\%\)\n`)
 var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)\n`)
 var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)\n`)
-var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(.*?)(?:\sfor\s(\d+)\s([a-zA-Z]+)\.|$)`)
+var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(\d+\/\d+\/\d+\s+\d+\:\d+\d\:\d+)(?:\sfor\s(\d+)\s([a-zA-Z]+)\.|\n)`)
 
 // Device regexs
 var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
