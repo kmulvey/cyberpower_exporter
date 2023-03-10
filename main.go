@@ -99,7 +99,7 @@ func main() {
 			status, device, err := parsePowerStats(out)
 			if err != nil {
 				log.Error(err)
-				fmt.Println(out)
+				fmt.Printf("[%s]", out)
 				fmt.Println()
 			}
 
