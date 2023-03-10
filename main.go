@@ -32,15 +32,15 @@ func main() {
 	// get user opts
 	var cmdPath, httpAddr, promAddr, dbName string
 	var pollInterval time.Duration
-	var v, db, enableHttp, enableProm bool
+	var v, enableDB, enableHttp, enableProm bool
 	flag.StringVar(&cmdPath, "cmd-path", "/usr/sbin/pwrstat", "absolute path to pwstat command")
 	flag.StringVar(&httpAddr, "http-addr", ":1000", "bind address of the http server")
 	flag.StringVar(&promAddr, "prom-addr", ":9300", "bind address of the prom http server")
 	flag.StringVar(&dbName, "db-name", "cp.db", "name of the sqlite file")
 	flag.DurationVar(&pollInterval, "poll-interval", time.Minute, "time interval to gather power stats")
-	flag.BoolVar(&db, "db", false, "write to sqlite db")
+	flag.BoolVar(&enableDB, "db", false, "write to sqlite db")
 	flag.BoolVar(&enableHttp, "http", false, "turn of http server")
-	flag.BoolVar(&enableProm, "prom", true, "enable prom stats")
+	flag.BoolVar(&enableProm, "prom", false, "enable prom stats")
 	flag.BoolVar(&v, "version", false, "print version")
 	flag.BoolVar(&v, "v", false, "print version")
 
@@ -55,10 +55,14 @@ func main() {
 		os.Exit(0)
 	}
 
+	if !enableDB && !enableHttp && !enableProm {
+		log.Fatal("no capture storage method chosen, pick one of: db, http, prom")
+	}
+
 	var dbHandle *gorm.DB
 	var err error
 
-	if db {
+	if enableDB {
 		dbHandle, err = dbConnect(dbName)
 		if err != nil {
 			log.Fatal(err)
@@ -86,67 +90,72 @@ func main() {
 		fmt.Println("started, go to grafana to monitor")
 	}
 
+	gatherAndSaveStats(cmdPath, enableDB, enableHttp, enableProm, dbHandle)
+
 	var ticker = time.NewTicker(pollInterval)
 	for {
 		select {
 		case <-ticker.C:
-
-			out, err := getPowerStats(cmdPath)
-			if err != nil {
-				log.Error(err)
-			}
-
-			status, device, err := parsePowerStats(out)
-			if err != nil {
-				log.Error(err)
-				fmt.Printf("[%s]", out)
-				fmt.Println()
-			}
-
-			if db {
-				if err := insert(dbHandle, status); err != nil {
-					log.Error(err)
-				}
-			}
-
-			if enableProm {
-
-				if status.State == "Normal" {
-					stateGauge.WithLabelValues(device.ModelName).Set(0)
-				} else if status.State == "Power Failure" {
-					stateGauge.WithLabelValues(device.ModelName).Set(1)
-				}
-
-				if status.PowerSupplyBy == "Utility Power" {
-					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
-				} else if status.PowerSupplyBy == "Battery Power" {
-					powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
-				}
-
-				if status.LineInteraction == "None" {
-					lineInteractionGauge.WithLabelValues(device.ModelName).Set(0)
-				} else {
-					lineInteractionGauge.WithLabelValues(device.ModelName).Set(1)
-				}
-
-				if status.TestResult == "Passed" {
-					testResultGauge.WithLabelValues(device.ModelName).Set(0)
-				} else {
-					testResultGauge.WithLabelValues(device.ModelName).Set(1)
-				}
-
-				utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
-				outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
-				batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
-				remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
-				loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
-				loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
-				lastPowerEventDurationGauge.WithLabelValues(device.ModelName).Set(float64(status.LastPowerEventDuration.Seconds()))
-			}
+			gatherAndSaveStats(cmdPath, enableDB, enableHttp, enableProm, dbHandle)
 
 		case <-sigChannel:
 			log.Info("shutting down")
 			return
 		}
+	}
+}
+
+func gatherAndSaveStats(cmdPath string, enableDB, enableHttp, enableProm bool, dbHandle *gorm.DB) {
+	out, err := getPowerStats(cmdPath)
+	if err != nil {
+		log.Error(err)
+	}
+
+	status, device, err := parsePowerStats(out)
+	if err != nil {
+		log.Error(err)
+		fmt.Printf("[%s]", out)
+		fmt.Println()
+	}
+
+	if enableDB {
+		if err := insert(dbHandle, status); err != nil {
+			log.Error(err)
+		}
+	}
+
+	if enableProm {
+
+		if status.State == "Normal" {
+			stateGauge.WithLabelValues(device.ModelName).Set(0)
+		} else if status.State == "Power Failure" {
+			stateGauge.WithLabelValues(device.ModelName).Set(1)
+		}
+
+		if status.PowerSupplyBy == "Utility Power" {
+			powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
+		} else if status.PowerSupplyBy == "Battery Power" {
+			powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
+		}
+
+		if status.LineInteraction == "None" {
+			lineInteractionGauge.WithLabelValues(device.ModelName).Set(0)
+		} else {
+			lineInteractionGauge.WithLabelValues(device.ModelName).Set(1)
+		}
+
+		if status.TestResult == "Passed" {
+			testResultGauge.WithLabelValues(device.ModelName).Set(0)
+		} else {
+			testResultGauge.WithLabelValues(device.ModelName).Set(1)
+		}
+
+		utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
+		outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
+		batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
+		remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
+		loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
+		loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
+		lastPowerEventDurationGauge.WithLabelValues(device.ModelName).Set(float64(status.LastPowerEventDuration.Seconds()))
 	}
 }
