@@ -7,76 +7,79 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testOutput = `
-Properties:
+var testOutputNormal = `
+The UPS information shows as following:
 
-	Model Name................... CP1500PFCLCDa
-	Firmware Number.............. CXXKY2008826
-	Rating Voltage............... 120 V
-	Rating Power................. 1000 Watt(1500 VA)
+	Properties:
+		Model Name................... CP1500PFCLCDa
+		Firmware Number.............. CR01802B7H21
+		Rating Voltage............... 120 V
+		Rating Power................. 1000 Watt(1500 VA)
 
-Current UPS status:
+	Current UPS status:
+		State........................ Normal
+		Power Supply by.............. Utility Power
+		Utility Voltage.............. 122 V
+		Output Voltage............... 122 V
+		Battery Capacity............. 46 %
+		Remaining Runtime............ 28 min.
+		Load......................... 120 Watt(12 %)
+		Line Interaction............. None
+		Test Result.................. Passed at 2023/03/09 13:25:33
+		Last Power Event............. Blackout at 2023/03/09 12:55:09 for 3 sec.
 
-	State........................ Normal
-	Power Supply by.............. Utility Power
-	Utility Voltage.............. 122 V
-	Output Voltage............... 122 V
-	Battery Capacity............. 100 %
-	Remaining Runtime............ 55 min.
-	Load......................... 140 Watt(14 %)
-	Line Interaction............. None
-	Test Result.................. Passed at 2022/10/04 13:56:27
-	Last Power Event............. Blackout at 2022/09/24 12:12:24 for 3 sec.
 `
 
 var testOutputBlackout = `
-Properties:
-Model Name................... CP1500PFCLCDa
-Firmware Number.............. CR01802B7H21
-Rating Voltage............... 120 V
-Rating Power................. 1000 Watt(1500 VA)
+The UPS information shows as following:
 
-Current UPS status:
-State........................ Power Failure
-Power Supply by.............. Battery Power
-Utility Voltage.............. 0 V
-Output Voltage............... 120 V
-Battery Capacity............. 28 %
-Remaining Runtime............ 16 min.
-Load......................... 140 Watt(14 %)
-Line Interaction............. None
-Test Result.................. Passed at 2023/03/06 10:12:45
-Last Power Event............. Blackout at 2023/03/09 11:43:36
+	Properties:
+		Model Name................... CP1500PFCLCDa
+		Firmware Number.............. CR01802B7H21
+		Rating Voltage............... 120 V
+		Rating Power................. 1000 Watt(1500 VA)
+
+	Current UPS status:
+		State........................ Power Failure
+		Power Supply by.............. Battery Power
+		Utility Voltage.............. 0 V
+		Output Voltage............... 120 V
+		Battery Capacity............. 39 %
+		Remaining Runtime............ 24 min.
+		Load......................... 120 Watt(12 %)
+		Line Interaction............. None
+		Test Result.................. Passed at 2023/03/09 13:25:33
+		Last Power Event............. Blackout at 2023/03/09 13:38:21
+
 `
 
 func TestParsePowerStats(t *testing.T) {
 	t.Parallel()
 
-	var status, device, err = parsePowerStats(testOutput)
+	var status, device, err = parsePowerStats(testOutputNormal)
 	assert.NoError(t, err)
 	assert.Equal(t, "Normal", status.State)
 	assert.Equal(t, "Utility Power", status.PowerSupplyBy)
 	assert.Equal(t, 122, status.UtilityVoltage)
 	assert.Equal(t, 122, status.OutputVoltage)
-	assert.Equal(t, 100, status.BatteryCapacity)
-	assert.Equal(t, time.Duration(55)*time.Minute, status.RemainingRuntime)
-	assert.Equal(t, 140, status.LoadWatts)
-	assert.Equal(t, 14, status.LoadPct)
-	assert.Equal(t, 14, status.LoadPct)
+	assert.Equal(t, 46, status.BatteryCapacity)
+	assert.Equal(t, time.Duration(28)*time.Minute, status.RemainingRuntime)
+	assert.Equal(t, 120, status.LoadWatts)
+	assert.Equal(t, 12, status.LoadPct)
 	assert.Equal(t, "None", status.LineInteraction)
 	assert.Equal(t, "Passed", status.TestResult)
-	assert.Equal(t, time.Date(2022, time.October, 4, 13, 56, 27, 0, status.TestResultTime.Location()), status.TestResultTime)
+	assert.Equal(t, time.Date(2023, time.March, 9, 13, 25, 33, 0, status.TestResultTime.Location()), status.TestResultTime)
 	assert.Equal(t, "Blackout", status.LastPowerEvent)
-	assert.Equal(t, time.Date(2022, time.September, 24, 12, 12, 24, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
+	assert.Equal(t, time.Date(2023, time.March, 9, 12, 55, 9, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
 	assert.Equal(t, time.Duration(3)*time.Second, status.LastPowerEventDuration)
 	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
-	assert.Equal(t, "CXXKY2008826", device.FirmwareNumber)
+	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
 	assert.Equal(t, 120, device.RatingVoltage)
 	assert.Equal(t, 1000, device.RatingPowerWatts)
 	assert.Equal(t, 1500, device.RatingPowerVA)
 }
 
-func TestGetLastPowerEventBlackout(t *testing.T) {
+func TestParsePowerStatsBlackout(t *testing.T) {
 	t.Parallel()
 
 	var status, device, err = parsePowerStats(testOutputBlackout)
@@ -85,16 +88,15 @@ func TestGetLastPowerEventBlackout(t *testing.T) {
 	assert.Equal(t, "Battery Power", status.PowerSupplyBy)
 	assert.Equal(t, 0, status.UtilityVoltage)
 	assert.Equal(t, 120, status.OutputVoltage)
-	assert.Equal(t, 28, status.BatteryCapacity)
-	assert.Equal(t, time.Duration(16)*time.Minute, status.RemainingRuntime)
-	assert.Equal(t, 140, status.LoadWatts)
-	assert.Equal(t, 14, status.LoadPct)
-	assert.Equal(t, 14, status.LoadPct)
+	assert.Equal(t, 39, status.BatteryCapacity)
+	assert.Equal(t, time.Duration(24)*time.Minute, status.RemainingRuntime)
+	assert.Equal(t, 120, status.LoadWatts)
+	assert.Equal(t, 12, status.LoadPct)
 	assert.Equal(t, "None", status.LineInteraction)
 	assert.Equal(t, "Passed", status.TestResult)
-	assert.Equal(t, time.Date(2023, time.March, 6, 10, 12, 45, 0, status.TestResultTime.Location()), status.TestResultTime)
+	assert.Equal(t, time.Date(2023, time.March, 9, 13, 25, 33, 0, status.TestResultTime.Location()), status.TestResultTime)
 	assert.Equal(t, "Blackout", status.LastPowerEvent)
-	assert.Equal(t, time.Date(2023, time.March, 9, 11, 43, 36, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
+	assert.Equal(t, time.Date(2023, time.March, 9, 13, 38, 21, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
 	assert.Equal(t, time.Duration(0), status.LastPowerEventDuration)
 	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
 	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
@@ -102,3 +104,25 @@ func TestGetLastPowerEventBlackout(t *testing.T) {
 	assert.Equal(t, 1000, device.RatingPowerWatts)
 	assert.Equal(t, 1500, device.RatingPowerVA)
 }
+
+// func TestGetLastPowerEventBlackout(t *testing.T) {
+// 	t.Parallel()
+
+// 	var lastPowerEvent, lastPowerEventTime, lastPowerEventDuration, err = getLastPowerEvent("Last Power Event............. Blackout at 2023/03/09 11:43:36")
+// 	assert.NoError(t, err)
+// 	assert.Equal(t, "Blackout", lastPowerEvent)
+// 	assert.Equal(t, time.Date(2023, time.March, 9, 11, 43, 36, 0, lastPowerEventTime.Location()), lastPowerEventTime)
+// 	assert.Equal(t, time.Duration(0), lastPowerEventDuration)
+
+// 	lastPowerEvent, lastPowerEventTime, lastPowerEventDuration, err = getLastPowerEvent("	Last Power Event............. Blackout at 2023/03/09 11:43:36")
+// 	assert.NoError(t, err)
+// 	assert.Equal(t, "Blackout", lastPowerEvent)
+// 	assert.Equal(t, time.Date(2023, time.March, 9, 11, 43, 36, 0, lastPowerEventTime.Location()), lastPowerEventTime)
+// 	assert.Equal(t, time.Duration(0), lastPowerEventDuration)
+
+// 	lastPowerEvent, lastPowerEventTime, lastPowerEventDuration, err = getLastPowerEvent("		Last Power Event............. Blackout at 2023/03/09 11:43:36")
+// 	assert.NoError(t, err)
+// 	assert.Equal(t, "Blackout", lastPowerEvent)
+// 	assert.Equal(t, time.Date(2023, time.March, 9, 11, 43, 36, 0, lastPowerEventTime.Location()), lastPowerEventTime)
+// 	assert.Equal(t, time.Duration(0), lastPowerEventDuration)
+// }
