@@ -90,13 +90,13 @@ func main() {
 		fmt.Println("started, go to grafana to monitor")
 	}
 
-	gatherAndSaveStats(cmdPath, enableDB, enableHttp, enableProm, dbHandle)
+	gatherAndSaveStats(cmdPath, enableDB, enableProm, dbHandle)
 
 	var ticker = time.NewTicker(pollInterval)
 	for {
 		select {
 		case <-ticker.C:
-			gatherAndSaveStats(cmdPath, enableDB, enableHttp, enableProm, dbHandle)
+			gatherAndSaveStats(cmdPath, enableDB, enableProm, dbHandle)
 
 		case <-sigChannel:
 			log.Info("shutting down")
@@ -105,7 +105,7 @@ func main() {
 	}
 }
 
-func gatherAndSaveStats(cmdPath string, enableDB, enableHttp, enableProm bool, dbHandle *gorm.DB) {
+func gatherAndSaveStats(cmdPath string, enableDB, enableProm bool, dbHandle *gorm.DB) {
 	out, err := getPowerStats(cmdPath)
 	if err != nil {
 		log.Error(err)
