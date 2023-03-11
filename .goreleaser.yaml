@@ -2,30 +2,35 @@ before:
   hooks:
     - go mod tidy
 builds:
+  
   - id: cpwatch
     main: .
-    binary: imagedup
-    env:
-      - CGO_ENABLED=0
+    binary: cpwatch
     ldflags:
-      - '-s -w'
-      - '-X go.szostok.io/version.version={{.Version}}'
-      - '-X go.szostok.io/version.buildDate={{.Date}}'
+      - -s -w -X main.build={{.Version}}
     goos:
-      - linux
+      - freebsd
       - windows
       - darwin
+      - linux
+      - js
+
+    goarch:
+      - amd64
+      - arm64
+
 archives:
-  - replacements:
-      '386': i386
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      amd64: x86_64
+  - id: foo
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
 checksum:
-  name_template: checksums.txt
+  name_template: 'checksums.txt'
 snapshot:
-  name_template: '{{ incpatch .Version }}-next'
+  name_template: "{{ incpatch .Version }}-next"
 changelog:
   sort: asc
   filters:
