@@ -248,6 +248,11 @@ func getTestResult(input string) (string, time.Time, error) {
 
 func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 
+	// lack of a power event is not in the main regex as it is already too complicated
+	if regexp.MustCompile(`Last Power Event............. None`).MatchString(input) {
+		return "None", time.Time{}, 0, nil
+	}
+
 	var result, err = getDeviceInfoAsString(lastPowerEventRegex, input, 1)
 	if err != nil {
 		return "", time.Time{}, 0, fmt.Errorf("unable to find the last power event, err: %w", err)
