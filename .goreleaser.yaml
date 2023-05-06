@@ -8,8 +8,8 @@ builds:
     binary: cpwatch
     ldflags:
       - -s -w -X main.build={{.Version}}
+
     goos:
-      - freebsd
       - windows
       - darwin
       - linux
