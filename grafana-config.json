@@ -24,14 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 4,
+  "id": 2,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -92,15 +92,15 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_power_supplied_by",
+          "expr": "cyber_power_exporter_power_supplied_by{model_name=\"$model_name\"} ",
           "legendFormat": "Power Source",
           "range": true,
           "refId": "A"
@@ -112,7 +112,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -173,15 +173,15 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_state",
+          "expr": "cyber_power_exporter_state{model_name=\"$model_name\"} ",
           "legendFormat": "Battery State",
           "range": true,
           "refId": "A"
@@ -193,7 +193,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -254,17 +254,20 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_line_interaction",
+          "exemplar": false,
+          "expr": "cyber_power_exporter_line_interaction{model_name=\"$model_name\"} ",
+          "format": "table",
+          "instant": true,
           "legendFormat": "{{label_name}}",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -274,7 +277,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -335,17 +338,20 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "9.3.6",
+      "pluginVersion": "9.4.7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_test_result",
+          "exemplar": false,
+          "expr": "cyber_power_exporter_test_result{model_name=\"$model_name\"} ",
+          "format": "table",
+          "instant": true,
           "legendFormat": "{{label_name}}",
-          "range": true,
+          "range": false,
           "refId": "A"
         }
       ],
@@ -355,7 +361,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -438,10 +444,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_remaining_runtime",
+          "expr": "cyber_power_exporter_remaining_runtime{model_name=\"$model_name\"} ",
           "legendFormat": "Runtime Remaining",
           "range": true,
           "refId": "A"
@@ -453,7 +459,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -536,10 +542,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_battery_capacity",
+          "expr": "cyber_power_exporter_battery_capacity{model_name=\"$model_name\"} ",
           "legendFormat": "Capacity",
           "range": true,
           "refId": "A"
@@ -551,7 +557,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -634,10 +640,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
-          "editorMode": "builder",
-          "expr": "cyber_power_exporter_load_pct",
+          "editorMode": "code",
+          "expr": "cyber_power_exporter_load_pct{model_name=\"$model_name\"} ",
           "legendFormat": "Load Pct",
           "range": true,
           "refId": "A"
@@ -649,7 +655,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -732,10 +738,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_utility_voltage",
+          "expr": "cyber_power_exporter_utility_voltage{model_name=\"$model_name\"} ",
           "legendFormat": "Utility Voltage",
           "range": true,
           "refId": "A"
@@ -743,10 +749,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_output_voltage",
+          "expr": "cyber_power_exporter_output_voltage{model_name=\"$model_name\"} ",
           "hide": false,
           "legendFormat": "Output Voltage",
           "range": true,
@@ -759,7 +765,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "fieldConfig": {
         "defaults": {
@@ -842,10 +848,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
-          "editorMode": "builder",
-          "expr": "cyber_power_exporter_load_watts",
+          "editorMode": "code",
+          "expr": "cyber_power_exporter_load_watts{model_name=\"$model_name\"} ",
           "legendFormat": "Load",
           "range": true,
           "refId": "A"
@@ -857,7 +863,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "tjg7UoA4k"
+        "uid": "-FZ2lTPVz"
       },
       "description": "",
       "fieldConfig": {
@@ -941,10 +947,10 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "tjg7UoA4k"
+            "uid": "-FZ2lTPVz"
           },
-          "editorMode": "builder",
-          "expr": "cyber_power_exporter_last_power_event_duration",
+          "editorMode": "code",
+          "expr": "cyber_power_exporter_last_power_event_duration{model_name=\"$model_name\"} ",
           "legendFormat": "Event Duration",
           "range": true,
           "refId": "A"
@@ -955,20 +961,49 @@
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 37,
+  "revision": 1,
+  "schemaVersion": 38,
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "CP1500PFCLCDa",
+          "value": "CP1500PFCLCDa"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "-FZ2lTPVz"
+        },
+        "definition": "label_values(model_name)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "model_name",
+        "multi": false,
+        "name": "model_name",
+        "options": [],
+        "query": {
+          "query": "label_values(model_name)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
   },
   "time": {
-    "from": "now-1h",
+    "from": "now-30m",
     "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Cyber Power",
   "uid": "YOdw8Z-Vz",
-  "version": 7,
+  "version": 6,
   "weekStart": ""
 }
