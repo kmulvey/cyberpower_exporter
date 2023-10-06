@@ -37,7 +37,7 @@ func main() {
 	flag.StringVar(&httpAddr, "http-addr", ":1000", "bind address of the http server")
 	flag.StringVar(&promAddr, "prom-addr", ":9300", "bind address of the prom http server")
 	flag.StringVar(&dbName, "db-name", "cp.db", "name of the sqlite file")
-	flag.DurationVar(&pollInterval, "poll-interval", time.Minute, "time interval to gather power stats")
+	flag.DurationVar(&pollInterval, "poll-interval", time.Second*5, "time interval to gather power stats")
 	flag.BoolVar(&enableDB, "db", false, "write to sqlite db")
 	flag.BoolVar(&enableHttp, "http", false, "turn of http server")
 	flag.BoolVar(&enableProm, "prom", false, "enable prom stats")
