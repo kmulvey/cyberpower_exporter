@@ -11,6 +11,8 @@ require (
 	gorm.io/gorm v1.25.7
 )
 
+require github.com/kmulvey/goutils v0.6.0
+
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
