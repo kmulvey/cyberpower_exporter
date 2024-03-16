@@ -32,5 +32,9 @@ func TestDB(t *testing.T) {
 
 	assert.EqualValues(t, status, dbStatus)
 
+	ddb, err := db.DB()
+	assert.NoError(t, err)
+	assert.NoError(t, ddb.Close())
+
 	assert.NoError(t, os.RemoveAll(fileName))
 }
