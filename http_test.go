@@ -35,7 +35,8 @@ func TestWebServer(t *testing.T) {
 	var getStatus DeviceStatus
 	body, err := io.ReadAll(res.Body)
 	assert.NoError(t, err)
-	json.Unmarshal(body, &getStatus)
+	assert.NoError(t, json.Unmarshal(body, &getStatus))
+	assert.NoError(t, res.Body.Close())
 
 	// tz are a little off, dont really care so null them out
 	status.CollectionTime = time.Time{}
