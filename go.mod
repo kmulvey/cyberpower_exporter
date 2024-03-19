@@ -8,7 +8,7 @@ require (
 	github.com/stretchr/testify v1.8.4
 	go.szostok.io/version v1.2.0
 	gorm.io/driver/sqlite v1.5.5
-	gorm.io/gorm v1.25.7
+	gorm.io/gorm v1.25.8
 )
 
 require github.com/kmulvey/goutils v0.6.0
