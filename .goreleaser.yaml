@@ -30,6 +30,8 @@ release:
       
 archives:
   - id: dist
+    builds:
+      - cyberpower_exporter
     name_template: >-
       {{ .ProjectName }}_
       {{- title .Os }}_
@@ -38,6 +40,7 @@ archives:
       {{- else }}{{ .Arch }}{{ end }}
     files:
       - cyberpower_exporter.service
+      - cyberpower_exporter
       - LICENSE
       - grafana-config.json
       
