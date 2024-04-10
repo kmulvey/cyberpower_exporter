@@ -159,7 +159,7 @@ func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 func getState(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(stateRegex, input, 1)
 	if err != nil {
-		return "", fmt.Errorf("unable to get the state, err %w", err)
+		return "", fmt.Errorf("unable to get the state, err: %w", err)
 	}
 	return val, nil
 }
@@ -167,7 +167,7 @@ func getState(input string) (string, error) {
 func getPowerSupply(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(powerSupplyRegex, input, 1)
 	if err != nil {
-		return "", fmt.Errorf("unable to get the power supply, err %w", err)
+		return "", fmt.Errorf("unable to get the power supply, err: %w", err)
 	}
 	return val, nil
 }
@@ -221,7 +221,7 @@ func getLoad(input string) (int, int, error) {
 func getLineInteraction(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(lineInteractionRegex, input, 1)
 	if err != nil {
-		return "", fmt.Errorf("unable to get the line interaction, err %w", err)
+		return "", fmt.Errorf("unable to find the line interaction, err: %w", err)
 	}
 	return val, nil
 }
@@ -235,12 +235,12 @@ func getTestResult(input string) (string, time.Time, error) {
 
 	dateStr, err := getDeviceInfoAsString(testResultRegex, input, 2)
 	if err != nil {
-		return "", time.Time{}, fmt.Errorf("unable to find the last test result, err: %w", err)
+		return "", time.Time{}, fmt.Errorf("unable to find the last test result date, err: %w", err)
 	}
 
 	date, err := time.Parse(dateFormat, dateStr)
 	if err != nil {
-		return "", time.Time{}, err
+		return "", time.Time{}, fmt.Errorf("unable to pasre date: %s, err: %w", dateStr, err)
 	}
 
 	return result, date, nil
