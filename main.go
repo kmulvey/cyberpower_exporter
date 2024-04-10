@@ -11,7 +11,6 @@ import (
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 
 	"go.szostok.io/version"
 	"go.szostok.io/version/printer"
@@ -30,17 +29,12 @@ func main() {
 	signal.Notify(sigChannel, os.Interrupt, syscall.SIGTERM)
 
 	// get user opts
-	var cmdPath, httpAddr, promAddr, dbName string
+	var cmdPath, promAddr string
 	var pollInterval time.Duration
-	var v, enableDB, enableHttp, enableProm bool
+	var v bool
 	flag.StringVar(&cmdPath, "cmd-path", "/usr/sbin/pwrstat", "absolute path to pwstat command")
-	flag.StringVar(&httpAddr, "http-addr", ":1000", "bind address of the http server")
 	flag.StringVar(&promAddr, "prom-addr", ":9300", "bind address of the prom http server")
-	flag.StringVar(&dbName, "db-name", "cp.db", "name of the sqlite file")
 	flag.DurationVar(&pollInterval, "poll-interval", time.Second*5, "time interval to gather power stats")
-	flag.BoolVar(&enableDB, "db", false, "write to sqlite db")
-	flag.BoolVar(&enableHttp, "http", false, "turn of http server")
-	flag.BoolVar(&enableProm, "prom", false, "enable prom stats")
 	flag.BoolVar(&v, "version", false, "print version")
 	flag.BoolVar(&v, "v", false, "print version")
 
@@ -55,48 +49,28 @@ func main() {
 		os.Exit(0)
 	}
 
-	if !enableDB && !enableHttp && !enableProm {
-		log.Fatal("no capture storage method chosen, pick one of: db, http, prom")
-	}
+	go func() {
+		http.Handle("/metrics", promhttp.Handler())
 
-	var dbHandle *gorm.DB
-	var err error
-
-	if enableDB {
-		dbHandle, err = dbConnect(dbName)
-		if err != nil {
-			log.Fatal(err)
+		var server = &http.Server{
+			Addr:         promAddr,
+			ReadTimeout:  5 * time.Second,
+			WriteTimeout: 10 * time.Second,
 		}
-	}
 
-	if enableHttp {
-		go webServer(httpAddr, dbHandle)
-	}
+		if err := server.ListenAndServe(); err != nil {
+			log.Fatal("http server error: ", err)
+		}
+	}()
+	fmt.Println("started, go to grafana to monitor")
 
-	if enableProm {
-		go func() {
-			http.Handle("/metrics", promhttp.Handler())
-
-			var server = &http.Server{
-				Addr:         promAddr,
-				ReadTimeout:  5 * time.Second,
-				WriteTimeout: 10 * time.Second,
-			}
-
-			if err := server.ListenAndServe(); err != nil {
-				log.Fatal("http server error: ", err)
-			}
-		}()
-		fmt.Println("started, go to grafana to monitor")
-	}
-
-	gatherAndSaveStats(cmdPath, enableDB, enableProm, dbHandle)
+	gatherAndSaveStats(cmdPath)
 
 	var ticker = time.NewTicker(pollInterval)
 	for {
 		select {
 		case <-ticker.C:
-			gatherAndSaveStats(cmdPath, enableDB, enableProm, dbHandle)
+			gatherAndSaveStats(cmdPath)
 
 		case <-sigChannel:
 			log.Info("shutting down")
@@ -105,7 +79,7 @@ func main() {
 	}
 }
 
-func gatherAndSaveStats(cmdPath string, enableDB, enableProm bool, dbHandle *gorm.DB) {
+func gatherAndSaveStats(cmdPath string) {
 	out, err := getPowerStats(cmdPath)
 	if err != nil {
 		log.Error(err)
@@ -118,44 +92,35 @@ func gatherAndSaveStats(cmdPath string, enableDB, enableProm bool, dbHandle *gor
 		fmt.Println()
 	}
 
-	if enableDB {
-		if err := insert(dbHandle, status); err != nil {
-			log.Error(err)
-		}
+	if status.State == "Normal" {
+		stateGauge.WithLabelValues(device.ModelName).Set(0)
+	} else if status.State == "Power Failure" {
+		stateGauge.WithLabelValues(device.ModelName).Set(1)
 	}
 
-	if enableProm {
-
-		if status.State == "Normal" {
-			stateGauge.WithLabelValues(device.ModelName).Set(0)
-		} else if status.State == "Power Failure" {
-			stateGauge.WithLabelValues(device.ModelName).Set(1)
-		}
-
-		if status.PowerSupplyBy == "Utility Power" {
-			powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
-		} else if status.PowerSupplyBy == "Battery Power" {
-			powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
-		}
-
-		if status.LineInteraction == "None" {
-			lineInteractionGauge.WithLabelValues(device.ModelName).Set(0)
-		} else {
-			lineInteractionGauge.WithLabelValues(device.ModelName).Set(1)
-		}
-
-		if status.TestResult == "Passed" {
-			testResultGauge.WithLabelValues(device.ModelName).Set(0)
-		} else {
-			testResultGauge.WithLabelValues(device.ModelName).Set(1)
-		}
-
-		utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
-		outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
-		batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
-		remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
-		loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
-		loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
-		lastPowerEventDurationGauge.WithLabelValues(device.ModelName).Set(float64(status.LastPowerEventDuration.Seconds()))
+	if status.PowerSupplyBy == "Utility Power" {
+		powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
+	} else if status.PowerSupplyBy == "Battery Power" {
+		powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
 	}
+
+	if status.LineInteraction == "None" {
+		lineInteractionGauge.WithLabelValues(device.ModelName).Set(0)
+	} else {
+		lineInteractionGauge.WithLabelValues(device.ModelName).Set(1)
+	}
+
+	if status.TestResult == "Passed" {
+		testResultGauge.WithLabelValues(device.ModelName).Set(0)
+	} else {
+		testResultGauge.WithLabelValues(device.ModelName).Set(1)
+	}
+
+	utilityVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.UtilityVoltage))
+	outputVoltageGauge.WithLabelValues(device.ModelName).Set(float64(status.OutputVoltage))
+	batteryCapacityGauge.WithLabelValues(device.ModelName).Set(float64(status.BatteryCapacity))
+	remainingRuntimeGauge.WithLabelValues(device.ModelName).Set(float64(status.RemainingRuntime.Seconds()))
+	loadWattsGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadWatts))
+	loadPctGauge.WithLabelValues(device.ModelName).Set(float64(status.LoadPct))
+	lastPowerEventDurationGauge.WithLabelValues(device.ModelName).Set(float64(status.LastPowerEventDuration.Seconds()))
 }
