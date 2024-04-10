@@ -1,0 +1,2 @@
+systemctl disable cyberpower_exporter
+systemctl stop cyberpower_exporter
