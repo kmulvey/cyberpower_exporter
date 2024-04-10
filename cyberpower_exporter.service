@@ -7,7 +7,7 @@ After=network-online.target
 User=root
 Group=root
 Restart=on-failure
-ExecStart=/opt/cpwatch -prom -prom-addr ":9300"
+ExecStart=/usr/bin/cpwatch -prom -prom-addr ":9300"
 
 [Install]
 WantedBy=multi-user.target
