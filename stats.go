@@ -68,25 +68,6 @@ var (
 		Help:      "result of last test result",
 	}, []string{"model_name"})
 
-	/*
-		testResultTimeGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: promNamespace,
-			Name:      "test_result_time",
-			Help:      "when the last test was run",
-		}, []string{"model_name"})
-
-		lastPowerEventGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: promNamespace,
-			Name:      "last_power_event",
-			Help:      "why power went out",
-		}, []string{"model_name"})
-
-		lastPowerEventTimeGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
-			Namespace: promNamespace,
-			Name:      "last_power_event_time",
-			Help:      "the last time power went out",
-		}, []string{"model_name"})
-	*/
 	lastPowerEventDurationGauge = promauto.NewGaugeVec(prometheus.GaugeOpts{
 		Namespace: promNamespace,
 		Name:      "last_power_event_duration",
