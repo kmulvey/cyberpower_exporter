@@ -299,7 +299,7 @@ func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 func getModelName(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(modelNameRegex, input, 1)
 	if err != nil {
-		return "", errors.New("unable to find the model name")
+		return "", fmt.Errorf("unable to find the model name, err: %w", err)
 	}
 	return val, nil
 }
@@ -307,7 +307,7 @@ func getModelName(input string) (string, error) {
 func getFirmwareNumber(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(firmwareNumberRegex, input, 1)
 	if err != nil {
-		return "", errors.New("unable to find the firmware number")
+		return "", fmt.Errorf("unable to find the firmware number, err: %w", err)
 	}
 	return val, nil
 }
