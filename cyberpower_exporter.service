@@ -7,7 +7,7 @@ After=network-online.target
 User=root
 Group=root
 Restart=on-failure
-ExecStart=/usr/bin/cyberpower_exporter -prom -prom-addr ":9300"
+ExecStart=/usr/bin/cyberpower_exporter -prom-addr ":9300"
 
 [Install]
 WantedBy=multi-user.target
