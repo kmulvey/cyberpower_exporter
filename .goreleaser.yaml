@@ -37,7 +37,7 @@ archives:
       {{- else if eq .Arch "386" }}i386
       {{- else }}{{ .Arch }}{{ end }}
     files:
-      - cyberpower_exporter.service
+      - cpwatch_exporter.service
       - CHANGELOG.md
       - LICENSE
       - grafana-config.json
