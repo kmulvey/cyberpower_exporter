@@ -21,8 +21,6 @@ release:
   github:
     owner: kmulvey
     name: cyberpower_exporter
-  ids:
-    - cyberpower_exporter
   # Whether to remove existing draft releases with the same name before creating
   replace_existing_draft: true
   # Whether to remove an artifact that already exists.
