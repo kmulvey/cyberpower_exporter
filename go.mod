@@ -1,4 +1,4 @@
-module github.com/kmulvey/cpwatch
+module github.com/kmulvey/cyberpower_exporter
 
 go 1.22.2
 

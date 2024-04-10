@@ -13,7 +13,6 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-cpwatch
-cp.db
+cyberpower_exporter
 .vscode
 dist
