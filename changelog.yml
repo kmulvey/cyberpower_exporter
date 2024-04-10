@@ -1,3 +1,1285 @@
+- semver: 0.6.0
+  date: 2024-04-10T10:54:04.747294826-06:00
+  packager: Kevin Mulvey
+  changes:
+    - commit: 894886656f6bc38b5e548a957f04d09daa33b090
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 4bca21d6c62ce47fabe6869797af90b329428a9c
+      note: badges
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 38a85d5ed65fd4c638bcaca4f61be92d4a1de82f
+      note: change name in readme
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 800444917f6537d9c798b0e021a1726355f84924
+      note: rename
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 9204e16a33121daa06160904636fd1f35e4e91e2
+      note: rename to cyberpower_exporter.service
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: a9d97419d293810920d0afb9adaa69647712e114
+      note: remove http and db code
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: f7b689a61f1d59b6f64e3b6b17a238c873c391b2
+      note: remove http and db
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 5318c3a03309d8dc1c60d6789cb0e3a90a8435d8
+      note: changelog.yml
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 7962517c829c89223e8187dfdf16a08e24c7c2df
+      note: systemd file
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 621020befa10d7145cfdb7dec0599e913c682f15
+      note: get releaser working
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 511daa431159c2af1a1833d6a07399e9bb852d9e
+      note: add CHANGELOG
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: a48242cdcc22cb2085f50ce7f60651221956c425
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 086338b303066b91e87a4ba2a323f4d388ffccdc
+      note: release scripts
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 19b6e533b3b961a7794b7e0687defe5048844f56
+      note: changelog
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 54bf4de8b73e95ef0f8b732c5e63e663aa556ecf
+      note: get releaser normalized with radeon
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: fa0239462145b87459184f1f5c29758d7f1eca63
+      note: go 22
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: d1be7ecbdada98a6258a8c3c4a030394394adab3
+      note: split actions
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: b0aa5f52c0f12cb420acff4b83a86c568ce458e2
+      note: linting
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 987fb9b3323f4eddf7218affb9e315af35eb36f3
+      note: test http route
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: fbd2aab31e298ba521e621b5e57a37bc179de316
+      note: codecov token
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 1c48ccec4e10fed692a766d92e7b7abf821f77a0
+      note: remove comment
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: b4d658aeea415deb6d439da09680082b71967159
+      note: a
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: b801bbd63ac868f00b5648842db49131b4230702
+      note: test db
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 908e3099e7371a24cfceb46ed43d4310019e39dc
+      note: go version
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 1ed13412f37e9f6647857e2e9479cf4a3da38552
+      note: update action
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: f55a11303e201823413cec6ce0236eb87ceece96
+      note: update actions
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 52f1d7c2f860f6a3bc5475dccfcdf4bec463bdbe
+      note: go 22
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 0770b4330f0e3b2cd0150882fab60650d179c0ae
+      note: |-
+        Merge pull request #34 from kmulvey/dependabot/go_modules/github.com/prometheus/client_golang-1.19.0
+
+        Bump github.com/prometheus/client_golang from 1.18.0 to 1.19.0
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 776e61b1ce2e10494227c924912bd515f4e55c16
+      note: |-
+        Bump github.com/prometheus/client_golang from 1.18.0 to 1.19.0
+
+        Bumps [github.com/prometheus/client_golang](https://github.com/prometheus/client_golang) from 1.18.0 to 1.19.0.
+        - [Release notes](https://github.com/prometheus/client_golang/releases)
+        - [Changelog](https://github.com/prometheus/client_golang/blob/v1.19.0/CHANGELOG.md)
+        - [Commits](https://github.com/prometheus/client_golang/compare/v1.18.0...v1.19.0)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/prometheus/client_golang
+          dependency-type: direct:production
+          update-type: version-update:semver-minor
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 942a8f4f64486cfc8acb76927b20493d1689e439
+      note: |-
+        Merge pull request #33 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.25.7
+
+        Bump gorm.io/gorm from 1.25.6 to 1.25.7
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 30f45b3862d9dab6a071d271dbea186f1002a76e
+      note: |-
+        Bump gorm.io/gorm from 1.25.6 to 1.25.7
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.25.6 to 1.25.7.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.25.6...v1.25.7)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 727b6c97e5e02bc86537394e25877bd49cbccc16
+      note: |-
+        Merge pull request #32 from kmulvey/dependabot/go_modules/gorm.io/driver/sqlite-1.5.5
+
+        Bump gorm.io/driver/sqlite from 1.5.4 to 1.5.5
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: b7ba6b52efdf6338bbfdf80259013cdea54c19ff
+      note: |-
+        Bump gorm.io/driver/sqlite from 1.5.4 to 1.5.5
+
+        Bumps [gorm.io/driver/sqlite](https://github.com/go-gorm/sqlite) from 1.5.4 to 1.5.5.
+        - [Commits](https://github.com/go-gorm/sqlite/compare/v1.5.4...v1.5.5)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/driver/sqlite
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: b77b4442cb860f61badcfb1d5772f649fb1f3e6f
+      note: |-
+        Merge pull request #31 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.25.6
+
+        Bump gorm.io/gorm from 1.25.5 to 1.25.6
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 1d89377e6f538458f66bf5ef76b2a7860c4450e2
+      note: |-
+        Bump gorm.io/gorm from 1.25.5 to 1.25.6
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.25.5 to 1.25.6.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.25.5...v1.25.6)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 87c7512b6546d165841a9a63c69caece8a82cb2b
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 075a69a3c4ec1fc3313d5e182196a1bfb4b67c8b
+      note: |-
+        Merge pull request #29 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.25.5
+
+        Bump gorm.io/gorm from 1.25.4 to 1.25.5
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: aa2fd44b6dfba34d9abc63bb08283eb080e464d6
+      note: |-
+        Bump gorm.io/gorm from 1.25.4 to 1.25.5
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.25.4 to 1.25.5.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.25.4...v1.25.5)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: faad71e73dc69e64b539091b2cfa40d8d5ba3935
+      note: |-
+        Merge pull request #28 from kmulvey/dependabot/go_modules/gorm.io/driver/sqlite-1.5.4
+
+        Bump gorm.io/driver/sqlite from 1.5.3 to 1.5.4
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 6932828cdf9b7b6afdcf057191c8fde8e4d00375
+      note: |-
+        Bump gorm.io/driver/sqlite from 1.5.3 to 1.5.4
+
+        Bumps [gorm.io/driver/sqlite](https://github.com/go-gorm/sqlite) from 1.5.3 to 1.5.4.
+        - [Commits](https://github.com/go-gorm/sqlite/compare/v1.5.3...v1.5.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/driver/sqlite
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 03ae1dbb1c6a9f7b5e34890e44d03db7864d9c46
+      note: bump to go 1.21
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 657ab43063f3ea3b3ba63afdfc9e70554fda0db4
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 14082284b73b4087dfce670dbc703235e4a4cb0c
+      note: more frequent refresh cycle
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: d109ac3084a7cdd12db4cf51847934881cd1e98a
+      note: |-
+        Merge pull request #27 from kmulvey/dependabot/go_modules/github.com/prometheus/client_golang-1.17.0
+
+        Bump github.com/prometheus/client_golang from 1.16.0 to 1.17.0
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 179f23c013b8fe82b2d939a7c8d2000ff5c9150f
+      note: |-
+        Merge pull request #25 from kmulvey/dependabot/go_modules/gorm.io/driver/sqlite-1.5.3
+
+        Bump gorm.io/driver/sqlite from 1.5.2 to 1.5.3
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 38a2495c7ff7022c4e6f63b99bb17fc5c9066afc
+      note: |-
+        Bump github.com/prometheus/client_golang from 1.16.0 to 1.17.0
+
+        Bumps [github.com/prometheus/client_golang](https://github.com/prometheus/client_golang) from 1.16.0 to 1.17.0.
+        - [Release notes](https://github.com/prometheus/client_golang/releases)
+        - [Changelog](https://github.com/prometheus/client_golang/blob/v1.17.0/CHANGELOG.md)
+        - [Commits](https://github.com/prometheus/client_golang/compare/v1.16.0...v1.17.0)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/prometheus/client_golang
+          dependency-type: direct:production
+          update-type: version-update:semver-minor
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 63817063066d1be18d7ed77697f120148a649831
+      note: |-
+        Bump gorm.io/driver/sqlite from 1.5.2 to 1.5.3
+
+        Bumps [gorm.io/driver/sqlite](https://github.com/go-gorm/sqlite) from 1.5.2 to 1.5.3.
+        - [Commits](https://github.com/go-gorm/sqlite/compare/v1.5.2...v1.5.3)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/driver/sqlite
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 99763ea2b702a1d02c6b116b185f8c0c29290893
+      note: update panel
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: de0827569bbbbb68cbebc930cb096e5410b50d51
+      note: |-
+        Merge pull request #23 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.25.2
+
+        Bump gorm.io/gorm from 1.25.0 to 1.25.2
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 9fe33c285ad6aaf52fc7cffc45ab2b625a2a2fb3
+      note: |-
+        Merge pull request #22 from kmulvey/dependabot/go_modules/github.com/prometheus/client_golang-1.16.0
+
+        Bump github.com/prometheus/client_golang from 1.15.1 to 1.16.0
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 8c2a200770898dfa04a963c74f347856a23bf0d6
+      note: |-
+        Bump gorm.io/gorm from 1.25.0 to 1.25.2
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.25.0 to 1.25.2.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.25.0...v1.25.2)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 2228f34bcca322100372f4cfb4e76bcdec082c72
+      note: |-
+        Merge pull request #21 from kmulvey/dependabot/go_modules/gorm.io/driver/sqlite-1.5.2
+
+        Bump gorm.io/driver/sqlite from 1.4.4 to 1.5.2
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: c3625baae28cefaae6a73ee90d65bb722a3984b3
+      note: |-
+        Bump github.com/prometheus/client_golang from 1.15.1 to 1.16.0
+
+        Bumps [github.com/prometheus/client_golang](https://github.com/prometheus/client_golang) from 1.15.1 to 1.16.0.
+        - [Release notes](https://github.com/prometheus/client_golang/releases)
+        - [Changelog](https://github.com/prometheus/client_golang/blob/main/CHANGELOG.md)
+        - [Commits](https://github.com/prometheus/client_golang/compare/v1.15.1...v1.16.0)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/prometheus/client_golang
+          dependency-type: direct:production
+          update-type: version-update:semver-minor
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 158771092bf4b7b9c762fecbf170f13049b1e896
+      note: |-
+        Merge pull request #20 from kmulvey/dependabot/go_modules/github.com/sirupsen/logrus-1.9.3
+
+        Bump github.com/sirupsen/logrus from 1.9.0 to 1.9.3
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 716c7f59ee33ef1032ab50c0dba88560d3d7de24
+      note: Merge branch 'main' into dependabot/go_modules/github.com/sirupsen/logrus-1.9.3
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 389326455f9572f6a1831e0d8593c62b7056f507
+      note: |-
+        Bump gorm.io/driver/sqlite from 1.4.4 to 1.5.2
+
+        Bumps [gorm.io/driver/sqlite](https://github.com/go-gorm/sqlite) from 1.4.4 to 1.5.2.
+        - [Commits](https://github.com/go-gorm/sqlite/compare/v1.4.4...v1.5.2)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/driver/sqlite
+          dependency-type: direct:production
+          update-type: version-update:semver-minor
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 2d629a8c738e818cb7739c68021e0adde736c3d5
+      note: |-
+        Merge pull request #19 from kmulvey/dependabot/go_modules/github.com/stretchr/testify-1.8.4
+
+        Bump github.com/stretchr/testify from 1.8.2 to 1.8.4
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 62a9f0252e5d62a0ebb8eb585c9256a34003d655
+      note: |-
+        Bump github.com/sirupsen/logrus from 1.9.0 to 1.9.3
+
+        Bumps [github.com/sirupsen/logrus](https://github.com/sirupsen/logrus) from 1.9.0 to 1.9.3.
+        - [Release notes](https://github.com/sirupsen/logrus/releases)
+        - [Changelog](https://github.com/sirupsen/logrus/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/sirupsen/logrus/compare/v1.9.0...v1.9.3)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/sirupsen/logrus
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 2c0f63ced3101f550fd2b80c4280cfe57c2f4506
+      note: |-
+        Bump github.com/stretchr/testify from 1.8.2 to 1.8.4
+
+        Bumps [github.com/stretchr/testify](https://github.com/stretchr/testify) from 1.8.2 to 1.8.4.
+        - [Release notes](https://github.com/stretchr/testify/releases)
+        - [Commits](https://github.com/stretchr/testify/compare/v1.8.2...v1.8.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/stretchr/testify
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: c90b95de162ec0499041b82edc3d4433f81d94bd
+      note: get builds working again
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 266bf87d5409d5a613bbd79601001f0d329fb51e
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: b77acc684dab670272bf138a1faef1f49ffd9951
+      note: handle no last power event
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 92c16dc966f7889b0a1d2a174b9cb48976f36115
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 5d9705d9069f4de3f0d5acaac29631c927f61294
+      note: ci cd configs
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: bfec9b6c7e19c9e489196499f4694c71c43bb682
+      note: coverage config
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 357325e608486c2601ed9fca7a619c7269b76d87
+      note: normalize ci cd configs
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 9b0613f1dd79dcc997cfec3b5e75c450e4564aa8
+      note: no emails
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 7dddc00477034954649a29c00fc43dbd34e0005f
+      note: update lint config
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 40f271d45ecb04d846252cd9fb59a73c571b38e5
+      note: bump testify
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 12b826cfe4f0cb53d6049b1949c70ce4487ea7e0
+      note: lint config
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 55876c81bd9d3a0a248736fb222cf4896b398fac
+      note: normalize github action
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 5cf7d97479403381d9adb631c9b579715f834c89
+      note: update releaser config
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 3459f3a3207c5533d813c2037d860da79f6d2590
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: d183d0b7fc45dcd1d5e010e5eadd14bdd050c0b2
+      note: do while, rename params
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 67fbff77939d42ed2ef27e7320131e2d49c857a1
+      note: temporary logging to capture edge cases
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: e7c3001f858a62a967fca8a73f5e75fc7d4db99d
+      note: serious test refactoring
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 897d9f3830e81b1c9a6b3cc381dc02d78bdb76c8
+      note: add blackout test
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 32ba660f2eda24532c5d2413111d1ae73b572ad4
+      note: more regex churn
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 8bdb804c031c339c201ee189c9cff31959d4d56a
+      note: log errors, dont die
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: f8f4ac259b14a63e61ae02ce907e4ab845fc3d4f
+      note: reorder panels
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: fde77eb1d0874a6d99dc1e980a09b7d1259a8c0f
+      note: publish more stats
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 58504d9c2f1eec04117953da67d4f676551df8e1
+      note: get getLastPowerEvent working
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 6e283c2f025eb18fbb1e103cecee1fce0a349bd3
+      note: system errors
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: ea13688e2e198fde07d3b0d03452b8c8c731ee0a
+      note: deps
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 18104f04144e17addd0a2fe2f47780b44c0a0f1f
+      note: grafana dash
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: e1c96f7f8fb1991b65e47a0e438767fb158041c5
+      note: systmed service
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 312580d113ef5ff8f51acae7fb3a0c9ba5bc89b1
+      note: fix some bugs, disable getLastPowerEvent for now
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 9bb49ff02aba685fd74d1db7fd2e404c68b000c7
+      note: ignore vscode
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: c7949e95d27ee1cfc9c25b9df7eca6a8049ad929
+      note: default values and logging
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 3223aeaf2c582eceed0813d2785ff60290b60d22
+      note: more flexible handling of lastPowerEvent
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: f35791860a46ac75e3e29c050e7cce6da4ab99f2
+      note: change namespace
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: e2de39a0e3c267eaa163802c1773a21f1e069a04
+      note: use common parsing functions
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 4116b356883a844264a61d3950047fa0ad388f1d
+      note: http timeouts
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 84653578998e46e84901b263f81bfae5d9650e2a
+      note: publish prom stats, http with timeouts, more cli args
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 24e88719d7910e54095bee699656fc520127ed15
+      note: create cli flags for different modes
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 6bc9f8bce74ebef5ede5efd10e2283221ced0c73
+      note: process device info
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: ccfa928a15152c0300e2594e70cf6cc97eaa393c
+      note: ignore db
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 14cf9791977830cf4a036a7783680dc37ab6f241
+      note: deps for stats
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: c3599df99b9164424fc9091ec505443785095886
+      note: define stats
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: eb59caa57b9a687e4fc40c7aee97cd3a05eaaea5
+      note: normalize go version
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 70d71a2744dcf3ad4e2d602278a08b71bf652f2b
+      note: |-
+        Merge pull request #7 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.24.5
+
+        Bump gorm.io/gorm from 1.24.3 to 1.24.5
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 4c9203f4f7b96bc71a6d661bc6c7ac3dc7620fe9
+      note: |-
+        Bump gorm.io/gorm from 1.24.3 to 1.24.5
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.24.3 to 1.24.5.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.24.3...v1.24.5)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: a322ac2476b93f26e22efdf47db79135e4c53e80
+      note: |-
+        Merge pull request #5 from kmulvey/dependabot/go_modules/gorm.io/driver/sqlite-1.4.4
+
+        Bump gorm.io/driver/sqlite from 1.4.3 to 1.4.4
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 3645b3e7c474f5cb7787d308bc6597af98efbd22
+      note: |-
+        Bump gorm.io/driver/sqlite from 1.4.3 to 1.4.4
+
+        Bumps [gorm.io/driver/sqlite](https://github.com/go-gorm/sqlite) from 1.4.3 to 1.4.4.
+        - [Release notes](https://github.com/go-gorm/sqlite/releases)
+        - [Commits](https://github.com/go-gorm/sqlite/compare/v1.4.3...v1.4.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/driver/sqlite
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: e484ec75cb51301111e25b4c4e3bfe080a5dd34c
+      note: |-
+        Merge pull request #4 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.24.3
+
+        Bump gorm.io/gorm from 1.24.2 to 1.24.3
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: dca5f827f1c2bb153cadcdc783c3eaabc884feeb
+      note: |-
+        Bump gorm.io/gorm from 1.24.2 to 1.24.3
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.24.2 to 1.24.3.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.24.2...v1.24.3)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: a4117eea7262e04c086b5b5a49706239c1916485
+      note: |-
+        Merge pull request #3 from kmulvey/dependabot/go_modules/gorm.io/gorm-1.24.2
+
+        Bump gorm.io/gorm from 1.24.0 to 1.24.2
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 473ef030f6e5ba892610a80da5602bbc97dc6b8d
+      note: |-
+        Bump gorm.io/gorm from 1.24.0 to 1.24.2
+
+        Bumps [gorm.io/gorm](https://github.com/go-gorm/gorm) from 1.24.0 to 1.24.2.
+        - [Release notes](https://github.com/go-gorm/gorm/releases)
+        - [Commits](https://github.com/go-gorm/gorm/compare/v1.24.0...v1.24.2)
+
+        ---
+        updated-dependencies:
+        - dependency-name: gorm.io/gorm
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: ece4bd0b0ed43a081c6e0b43515a52c45ff73f6c
+      note: less restrictive go version for build
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: d91f172730c5750075db32cae70a2dec5911b92f
+      note: |-
+        Merge pull request #1 from kmulvey/dependabot/go_modules/github.com/stretchr/testify-1.8.1
+
+        Bump github.com/stretchr/testify from 1.8.0 to 1.8.1
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 1543b01a6dc290dbb6f737d5acdcb857efd91841
+      note: |-
+        Bump github.com/stretchr/testify from 1.8.0 to 1.8.1
+
+        Bumps [github.com/stretchr/testify](https://github.com/stretchr/testify) from 1.8.0 to 1.8.1.
+        - [Release notes](https://github.com/stretchr/testify/releases)
+        - [Commits](https://github.com/stretchr/testify/compare/v1.8.0...v1.8.1)
+
+        ---
+        updated-dependencies:
+        - dependency-name: github.com/stretchr/testify
+          dependency-type: direct:production
+          update-type: version-update:semver-patch
+        ...
+      author:
+        name: dependabot[bot]
+        email: 49699333+dependabot[bot]@users.noreply.github.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: 10b5dc8786997d492465e0b621d52baaf7ba2480
+      note: usage
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
+    - commit: c3c44cb58e72c80223640dd4541e8e8e4758a104
+      note: badges
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: e0f58872192a03b2ab071aabee045baa6c0b3242
+      note: format yaml
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 7c30cb064c7c46780ca7f927c3c291e0566102ba
+      note: fix goreleaser
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: b18b82d509ce7756ab6d7ac1bd5d36622184a7f7
+      note: goreleaser config
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 7cc93028cf168ad6f56f0f4682410cf724740a2f
+      note: workflows
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: c2b3af94e10be59811c0961fc263f1711b7b7bc9
+      note: pkg name change
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: bec47997decc10dc1dd368ee7513e5376cd72dd4
+      note: fix linting errors
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 23c49357905eba393fe53932d4b6398e851e2d88
+      note: signals and http
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 28af6e50fc237233acaff913dcbf5605b02aadd3
+      note: wire it up
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: c36f23ca8f3ef2a9b4b975957a3585e8cafd22f2
+      note: start sql
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: eafd2f51f535a15e2d3618ff1ce00204cc17be8f
+      note: parse and test
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 0095b52cc31ebd6aec4455d57a1f957d821b096a
+      note: remove binary
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 95241cf326763856ff9d2c331dd361f5ebf9adee
+      note: init
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+    - commit: 47cb482c71d2cebcbcdc4b12d7e07ca8b66e4cd0
+      note: Initial commit
+      author:
+        name: Kevin Mulvey
+        email: kmulvey@linux.com
+      committer:
+        name: GitHub
+        email: noreply@github.com
 - semver: 0.5.3
   date: 2024-04-10T09:52:37-06:00
   packager: Kevin Mulvey
