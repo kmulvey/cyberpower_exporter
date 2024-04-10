@@ -10,6 +10,8 @@ builds:
     binary: cyberpower_exporter
     ldflags:
       - -s -w -X main.build={{.Version}}
+      - -X go.szostok.io/version.version={{.Version}}
+      - -X go.szostok.io/version.buildDate={{.Date}}
     goos:
       - linux
 
