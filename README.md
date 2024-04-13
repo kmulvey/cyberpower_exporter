@@ -14,3 +14,5 @@ Several linux package formats are available in the releases. Becasue pwrstat nee
 - `sudo systemctl restart cyberpower_exporter`
 - Import grafana-config.json to your grafana instance
 - enjoy!
+
+![Screenshot](https://github.com/kmulvey/cyberpower_exporter/blob/main/screenshot.jpg?raw=true)
