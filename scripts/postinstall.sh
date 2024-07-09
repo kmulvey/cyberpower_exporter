@@ -1,3 +1,3 @@
-systemctl daemon-reload
-systemctl enable cyberpower_exporter
-systemctl restart cyberpower_exporter
+sudo systemctl daemon-reload
+sudo systemctl enable cyberpower_exporter
+sudo systemctl restart cyberpower_exporter
