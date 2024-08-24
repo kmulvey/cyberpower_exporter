@@ -1,4 +1,41 @@
 {
+  "__inputs": [
+    {
+      "name": "DS_PROMETHEUS",
+      "label": "prometheus",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "prometheus",
+      "pluginName": "Prometheus"
+    }
+  ],
+  "__elements": {},
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "11.1.4"
+    },
+    {
+      "type": "datasource",
+      "id": "prometheus",
+      "name": "Prometheus",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "stat",
+      "name": "Stat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
+      "version": ""
+    }
+  ],
   "annotations": {
     "list": [
       {
@@ -24,14 +61,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 2,
+  "id": null,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -83,6 +120,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -90,20 +128,26 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_power_supplied_by{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_power_supplied_by{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "Power Source",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Power Source",
@@ -112,7 +156,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -164,6 +208,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -171,20 +216,26 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_state{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_state{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "Battery State",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Battery State",
@@ -193,7 +244,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -245,6 +296,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -252,23 +304,29 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "cyber_power_exporter_line_interaction{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_line_interaction{model_name=\"$model_name\"}",
           "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{label_name}}",
           "range": false,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Line Interaction",
@@ -277,7 +335,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -329,6 +387,7 @@
         "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
+        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -336,23 +395,29 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "9.4.7",
+      "pluginVersion": "11.1.4",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
           "exemplar": false,
-          "expr": "cyber_power_exporter_test_result{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_test_result{model_name=\"$model_name\"}",
           "format": "table",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "instant": true,
           "legendFormat": "{{label_name}}",
           "range": false,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Last Test Result",
@@ -361,7 +426,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -369,6 +434,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -382,6 +448,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -444,13 +511,17 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_remaining_runtime{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_remaining_runtime{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "Runtime Remaining",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Runtime Remaining",
@@ -459,7 +530,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -467,6 +538,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -480,6 +552,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -542,13 +615,17 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_battery_capacity{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_battery_capacity{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "Capacity",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         }
       ],
       "title": "Battery Capacity",
@@ -557,7 +634,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -565,6 +642,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -578,6 +656,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -640,7 +719,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "cyber_power_exporter_load_pct{model_name=\"$model_name\"} ",
@@ -655,7 +734,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -663,6 +742,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -676,6 +756,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -738,25 +819,33 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_utility_voltage{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_utility_voltage{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
+          "includeNullMetadata": true,
           "legendFormat": "Utility Voltage",
           "range": true,
-          "refId": "A"
+          "refId": "A",
+          "useBackend": false
         },
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
+          "disableTextWrap": false,
           "editorMode": "builder",
-          "expr": "cyber_power_exporter_output_voltage{model_name=\"$model_name\"} ",
+          "expr": "cyber_power_exporter_output_voltage{model_name=\"$model_name\"}",
+          "fullMetaSearch": false,
           "hide": false,
+          "includeNullMetadata": true,
           "legendFormat": "Output Voltage",
           "range": true,
-          "refId": "B"
+          "refId": "B",
+          "useBackend": false
         }
       ],
       "title": "Voltage",
@@ -765,7 +854,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "fieldConfig": {
         "defaults": {
@@ -773,6 +862,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -786,6 +876,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -848,7 +939,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "cyber_power_exporter_load_watts{model_name=\"$model_name\"} ",
@@ -863,7 +954,7 @@
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "-FZ2lTPVz"
+        "uid": "${DS_PROMETHEUS}"
       },
       "description": "",
       "fieldConfig": {
@@ -872,6 +963,7 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisBorderShow": false,
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
@@ -885,6 +977,7 @@
               "tooltip": false,
               "viz": false
             },
+            "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
             "pointSize": 5,
@@ -947,7 +1040,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "-FZ2lTPVz"
+            "uid": "${DS_PROMETHEUS}"
           },
           "editorMode": "code",
           "expr": "cyber_power_exporter_last_power_event_duration{model_name=\"$model_name\"} ",
@@ -962,20 +1055,15 @@
   ],
   "refresh": "10s",
   "revision": 1,
-  "schemaVersion": 38,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [],
   "templating": {
     "list": [
       {
-        "current": {
-          "selected": false,
-          "text": "CP1500PFCLCDa",
-          "value": "CP1500PFCLCDa"
-        },
+        "current": {},
         "datasource": {
           "type": "prometheus",
-          "uid": "-FZ2lTPVz"
+          "uid": "${DS_PROMETHEUS}"
         },
         "definition": "label_values(model_name)",
         "hide": 0,
@@ -997,7 +1085,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-1h",
     "to": "now"
   },
   "timepicker": {},
