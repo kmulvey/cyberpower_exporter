@@ -17,7 +17,7 @@ WORKDIR /
 
 COPY --from=build-stage /cyberpower_exporter /cyberpower_exporter
 
-EXPOSE 9200
+EXPOSE 9300
 
 USER nonroot:nonroot
 
