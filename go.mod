@@ -1,6 +1,6 @@
 module github.com/kmulvey/cyberpower_exporter
 
-go 1.22.2
+go 1.22.5
 
 require (
 	github.com/prometheus/client_golang v1.20.2
