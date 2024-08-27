@@ -4,9 +4,9 @@
 Monitor and store CyberPower UPS statistics.
 
 ## Installation and Usage
-Several linux package formats are available in the releases. Becasue pwrstat needs to be run as root, this tool needs to be run as root as well. 
+Several linux package formats are available in the releases. Becasue pwrstat needs to be run as root, this tool needs to be run as root as well.
 
-### Manual linux install:  
+### Manual linux install:
 - `sudo cp cyberpower_exporter /usr/bin/` (this path can be changed if you like, just be sure to change the path in the service file as well)
 - `sudo cp cyberpower_exporter.service /etc/systemd/system/`
 - `sudo systemctl daemon-reload`
