@@ -11,6 +11,12 @@ import (
 	"time"
 )
 
+var (
+	errUnknownDurationUnit  = errors.New("event duration has an unknown unit")
+	errGroupIDExceedsLength = errors.New("groupID exceeds array length")
+	errNoMatchesFound       = errors.New("could not find any matches")
+)
+
 type Device struct {
 	ModelName        string
 	FirmwareNumber   string
@@ -24,8 +30,8 @@ type DeviceStatus struct {
 	PowerSupplyBy          string // really enum
 	UtilityVoltage         int
 	OutputVoltage          int
-	BatteryCapacity        int           // pct out of 100
-	RemainingRuntime       time.Duration `json:"RemainingRuntimeNano"`
+	BatteryCapacity        int // pct out of 100
+	RemainingRuntime       time.Duration
 	LoadWatts              int
 	LoadPct                int
 	LineInteraction        string
@@ -33,12 +39,11 @@ type DeviceStatus struct {
 	TestResultTime         time.Time
 	LastPowerEvent         string
 	LastPowerEventTime     time.Time
-	LastPowerEventDuration time.Duration `json:"LastPowerEventDurationNano"`
-	CollectionTime         time.Time     `gorm:"primaryKey"`
+	LastPowerEventDuration time.Duration
+	CollectionTime         time.Time
 }
 
-// DeviceStatus regexs
-// $ does not work to find EOL, idk why, so we use \n
+// $ does not work to find EOL, idk why, so we use \n.
 var stateRegex = regexp.MustCompile(`State\.+\s([a-zA-Z\s]+)\n`)
 var powerSupplyRegex = regexp.MustCompile(`Power Supply by\.+\s([a-zA-Z\s]+)\n`)
 var utilityVoltageRegex = regexp.MustCompile(`Utility Voltage\.+\s(\d+)\sV\n`)
@@ -50,7 +55,7 @@ var lineInteractionRegex = regexp.MustCompile(`Line Interaction\.+\s([a-zA-Z]+)\
 var testResultRegex = regexp.MustCompile(`Test Result\.+\s([a-zA-Z]+)\sat\s(.*)\n`)
 var lastPowerEventRegex = regexp.MustCompile(`Last Power Event\.+\s([a-zA-Z]+)\sat\s(\d+\/\d+\/\d+\s+\d+\:\d+\d\:\d+)(?:\sfor\s(\d+)\s([a-zA-Z]+)\.|\n)`)
 
-// Device regexs
+// regexs for Device.
 var modelNameRegex = regexp.MustCompile(`Model Name\.+\s([a-zA-Z0-9]+)`)
 var firmwareNumberRegex = regexp.MustCompile(`Firmware Number\.+\s([a-zA-Z0-9]+)`)
 var ratingVoltageRegex = regexp.MustCompile(`Rating Voltage\.+\s(\d+)\sV`)
@@ -189,11 +194,11 @@ func getOutputVoltage(input string) (int, error) {
 }
 
 func getBatteryCapacity(input string) (int, error) {
-	var cap, err = getDeviceInfoAsInt(batteryCapacityRegex, input, 1)
+	var capacity, err = getDeviceInfoAsInt(batteryCapacityRegex, input, 1)
 	if err != nil {
 		return 0, fmt.Errorf("unable to find the battery capacity, err: %w", err)
 	}
-	return cap, nil
+	return capacity, nil
 }
 
 func getRemainingRuntime(input string) (time.Duration, error) {
@@ -265,7 +270,7 @@ func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 
 	date, err := time.Parse(dateFormat, dateStr)
 	if err != nil {
-		return "", time.Time{}, 0, err
+		return "", time.Time{}, 0, fmt.Errorf("unable to parse date: %s, err: %w", dateStr, err)
 	}
 
 	var duration time.Duration
@@ -287,7 +292,7 @@ func getLastPowerEvent(input string) (string, time.Time, time.Duration, error) {
 		case "min":
 			duration = time.Duration(durationInt) * time.Minute
 		default:
-			return "", time.Time{}, 0, fmt.Errorf("event duration has an unknown unit, input: %s", durationUnit)
+			return "", time.Time{}, 0, fmt.Errorf("%w: %s", errUnknownDurationUnit, durationUnit)
 		}
 	}
 
@@ -344,13 +349,13 @@ func getDeviceInfoAsString(re *regexp.Regexp, input string, groupID int) (string
 	if len(match) == 1 {
 		if len(match[0]) >= 2 {
 			if len(match[0]) <= groupID {
-				return "", errors.New("groupID exceeds arr length")
+				return "", fmt.Errorf("%w: groupID %d exceeds array length", errGroupIDExceedsLength, groupID)
 			}
 			return strings.TrimSpace(match[0][groupID]), nil
 		}
 	}
 
-	return "", errors.New("could not find any matches")
+	return "", errNoMatchesFound
 }
 
 func getDeviceInfoAsInt(re *regexp.Regexp, input string, groupID int) (int, error) {
@@ -358,15 +363,15 @@ func getDeviceInfoAsInt(re *regexp.Regexp, input string, groupID int) (int, erro
 	if len(match) == 1 {
 		if len(match[0]) >= 2 {
 			if len(match[0]) <= groupID {
-				return 0, errors.New("groupID exceeds arr length")
+				return 0, fmt.Errorf("%w: groupID %d exceeds array length", errGroupIDExceedsLength, groupID)
 			}
 
 			var val, err = strconv.Atoi(strings.TrimSpace(match[0][groupID]))
 			if err != nil {
-				return 0, err
+				return 0, fmt.Errorf("unable to convert string: %s to int, err: %w", strings.TrimSpace(match[0][groupID]), err)
 			}
 			return val, nil
 		}
 	}
-	return 0, errors.New("could not find any matches")
+	return 0, errNoMatchesFound
 }
