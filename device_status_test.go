@@ -119,7 +119,7 @@ func TestGetTestResult(t *testing.T) {
 	var result, date, err = getTestResult(testOutputNormal)
 	assert.NoError(t, err)
 	assert.Equal(t, "Passed", result)
-	assert.Equal(t, time.Time(time.Date(2023, time.March, 9, 13, 25, 33, 0, time.UTC)), date)
+	assert.Equal(t, time.Date(2023, time.March, 9, 13, 25, 33, 0, time.UTC), date)
 
 	/* getDeviceInfoAsString needs to return a slice in order to test this
 	result, date, err = getTestResult("Test Result.................. Passed at \n") // missing date string

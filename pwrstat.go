@@ -76,6 +76,7 @@ func getPowerStats(cmdPath string) (string, error) {
 	return out.String(), nil
 }
 
+// nolint: funlen
 func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
 
 	var err error
@@ -360,18 +361,17 @@ func getDeviceInfoAsString(re *regexp.Regexp, input string, groupID int) (string
 
 func getDeviceInfoAsInt(re *regexp.Regexp, input string, groupID int) (int, error) {
 	var match = re.FindAllStringSubmatch(input, -1)
-	if len(match) == 1 {
-		if len(match[0]) >= 2 {
-			if len(match[0]) <= groupID {
-				return 0, fmt.Errorf("%w: groupID %d exceeds array length", errGroupIDExceedsLength, groupID)
-			}
-
-			var val, err = strconv.Atoi(strings.TrimSpace(match[0][groupID]))
-			if err != nil {
-				return 0, fmt.Errorf("unable to convert string: %s to int, err: %w", strings.TrimSpace(match[0][groupID]), err)
-			}
-			return val, nil
+	if len(match) == 1 && len(match[0]) >= 2 {
+		if len(match[0]) <= groupID {
+			return 0, fmt.Errorf("%w: groupID %d exceeds array length", errGroupIDExceedsLength, groupID)
 		}
+
+		var val, err = strconv.Atoi(strings.TrimSpace(match[0][groupID]))
+		if err != nil {
+			return 0, fmt.Errorf("unable to convert string: %s to int, err: %w", strings.TrimSpace(match[0][groupID]), err)
+		}
+
+		return val, nil
 	}
 	return 0, errNoMatchesFound
 }

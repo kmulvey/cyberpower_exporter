@@ -7,7 +7,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-var testOutputNormal = `
+// nolint: gochecknoglobals
+var (
+	testOutputNormal = `
 The UPS information shows as following:
 
 	Properties:
@@ -27,10 +29,9 @@ The UPS information shows as following:
 		Line Interaction............. None
 		Test Result.................. Passed at 2023/03/09 13:25:33
 		Last Power Event............. Blackout at 2023/03/09 12:55:09 for 3 sec.
-
 `
 
-var testOutputBlackout = `
+	testOutputBlackout = `
 The UPS information shows as following:
 
 	Properties:
@@ -50,8 +51,24 @@ The UPS information shows as following:
 		Line Interaction............. None
 		Test Result.................. Passed at 2023/03/09 13:25:33
 		Last Power Event............. Blackout at 2023/03/09 13:38:21
-
 `
+
+// 	testLostConnection = `
+// The UPS information shows as following:
+
+// 	Properties:
+// 		Model Name................... CP1500PFCLCDa
+// 		Firmware Number.............. CR01802B7H21
+// 		Rating Voltage............... 120 V
+// 		Rating Power................. 1000 Watt(1500 VA)
+
+//	Current UPS status:
+//		State........................ Lost Communication
+//		Test Result.................. Passed at 2025/01/21 13:13:05
+//		Last Power Event............. Blackout at 2025/01/23 12:33:09
+//
+// `
+)
 
 func TestParsePowerStats(t *testing.T) {
 	t.Parallel()

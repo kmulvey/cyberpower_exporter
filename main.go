@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -16,6 +15,7 @@ import (
 	"go.szostok.io/version/printer"
 )
 
+// nolint: gochecknoglobals
 var dateFormat = "2006/01/02 15:04:05"
 
 func main() {
@@ -62,7 +62,7 @@ func main() {
 			log.Fatal("http server error: ", err)
 		}
 	}()
-	fmt.Println("started, go to grafana to monitor")
+	log.Info("started, go to grafana to monitor")
 
 	gatherAndSaveStats(cmdPath)
 
@@ -88,8 +88,6 @@ func gatherAndSaveStats(cmdPath string) {
 	status, device, err := parsePowerStats(out)
 	if err != nil {
 		log.Error(err)
-		fmt.Printf("[%s]", out)
-		fmt.Println()
 	}
 
 	if status.State == "Normal" {
