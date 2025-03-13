@@ -76,91 +76,97 @@ func getPowerStats(cmdPath string) (string, error) {
 	return out.String(), nil
 }
 
-// nolint: funlen
-func parsePowerStats(cmdOutput string) (DeviceStatus, Device, error) {
-
+func parsePowerStatus(cmdOutput string) (DeviceStatus, error) {
 	var err error
-	var ds = DeviceStatus{}
+	var status = DeviceStatus{}
 
-	ds.State, err = getState(cmdOutput)
+	status.State, err = getState(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getState err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getState err: %w", err)
 	}
 
-	ds.PowerSupplyBy, err = getPowerSupply(cmdOutput)
+	status.TestResult, status.TestResultTime, err = getTestResult(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getPowerSupply err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getTestResult err: %w", err)
 	}
 
-	ds.LineInteraction, err = getLineInteraction(cmdOutput)
+	status.LastPowerEvent, status.LastPowerEventTime, status.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLineInteraction err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getLastPowerEvent err: %w", err)
 	}
 
-	ds.UtilityVoltage, err = getUtilityVoltage(cmdOutput)
-	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getUtilityVoltage err: %w", err)
+	// if we lost communication, we dont need to parse the rest.
+	// see test data for an example.
+	if strings.Contains(cmdOutput, "Lost Communication") {
+		return status, nil
 	}
 
-	ds.OutputVoltage, err = getOutputVoltage(cmdOutput)
+	status.PowerSupplyBy, err = getPowerSupply(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getOutputVoltage err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getPowerSupply err: %w", err)
 	}
 
-	ds.BatteryCapacity, err = getBatteryCapacity(cmdOutput)
+	status.LineInteraction, err = getLineInteraction(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getBatteryCapacity err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getLineInteraction err: %w", err)
 	}
 
-	ds.RemainingRuntime, err = getRemainingRuntime(cmdOutput)
+	status.UtilityVoltage, err = getUtilityVoltage(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getRemainingRuntime err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getUtilityVoltage err: %w", err)
 	}
 
-	ds.LoadWatts, ds.LoadPct, err = getLoad(cmdOutput)
+	status.OutputVoltage, err = getOutputVoltage(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLoad err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getOutputVoltage err: %w", err)
 	}
 
-	ds.TestResult, ds.TestResultTime, err = getTestResult(cmdOutput)
+	status.BatteryCapacity, err = getBatteryCapacity(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getTestResult err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getBatteryCapacity err: %w", err)
 	}
 
-	ds.LastPowerEvent, ds.LastPowerEventTime, ds.LastPowerEventDuration, err = getLastPowerEvent(cmdOutput)
+	status.RemainingRuntime, err = getRemainingRuntime(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getLastPowerEvent err: %w", err)
+		return DeviceStatus{}, fmt.Errorf("getRemainingRuntime err: %w", err)
 	}
 
-	ds.CollectionTime = time.Now()
+	status.LoadWatts, status.LoadPct, err = getLoad(cmdOutput)
+	if err != nil {
+		return DeviceStatus{}, fmt.Errorf("getLoad err: %w", err)
+	}
 
-	//////////////// Device
+	status.CollectionTime = time.Now()
+	return status, nil
+}
+
+// parseDeviceProperties parses USP properties.
+func parseDeviceProperties(cmdOutput string) (Device, error) {
 	var device = Device{}
+	var err error
 
 	device.ModelName, err = getModelName(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getModelName err: %w", err)
+		return Device{}, fmt.Errorf("getModelName err: %w", err)
 	}
 
 	device.FirmwareNumber, err = getFirmwareNumber(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getFirmwareNumber err: %w", err)
+		return Device{}, fmt.Errorf("getFirmwareNumber err: %w", err)
 	}
 
 	device.RatingVoltage, err = getRatingVoltage(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getRatingVoltage err: %w", err)
+		return Device{}, fmt.Errorf("getRatingVoltage err: %w", err)
 	}
 
 	device.RatingPowerWatts, device.RatingPowerVA, err = getRatingPowerWatts(cmdOutput)
 	if err != nil {
-		return DeviceStatus{}, Device{}, fmt.Errorf("getRatingPowerWatts err: %w", err)
+		return Device{}, fmt.Errorf("getRatingPowerWatts err: %w", err)
 	}
 
-	return ds, device, nil
+	return device, nil
 }
-
-//////////////// Device Status
 
 func getState(input string) (string, error) {
 	var val, err = getDeviceInfoAsString(stateRegex, input, 1)

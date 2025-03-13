@@ -85,7 +85,12 @@ func gatherAndSaveStats(cmdPath string) {
 		log.Error(err)
 	}
 
-	status, device, err := parsePowerStats(out)
+	status, err := parsePowerStatus(out)
+	if err != nil {
+		log.Error(err)
+	}
+
+	device, err := parseDeviceProperties(out)
 	if err != nil {
 		log.Error(err)
 	}
