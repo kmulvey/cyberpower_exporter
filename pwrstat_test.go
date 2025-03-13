@@ -53,28 +53,29 @@ The UPS information shows as following:
 		Last Power Event............. Blackout at 2023/03/09 13:38:21
 `
 
-// 	testLostConnection = `
-// The UPS information shows as following:
+	testLostConnection = `
+The UPS information shows as following:
 
-// 	Properties:
-// 		Model Name................... CP1500PFCLCDa
-// 		Firmware Number.............. CR01802B7H21
-// 		Rating Voltage............... 120 V
-// 		Rating Power................. 1000 Watt(1500 VA)
+	Properties:
+		Model Name................... CP1500PFCLCDa
+		Firmware Number.............. CR01802B7H21
+		Rating Voltage............... 120 V
+		Rating Power................. 1000 Watt(1500 VA)
 
-//	Current UPS status:
-//		State........................ Lost Communication
-//		Test Result.................. Passed at 2025/01/21 13:13:05
-//		Last Power Event............. Blackout at 2025/01/23 12:33:09
-//
-// `
+	Current UPS status:
+		State........................ Lost Communication
+		Test Result.................. Passed at 2025/01/21 13:13:05
+		Last Power Event............. Blackout at 2025/01/23 12:33:09
+
+`
 )
 
-func TestParsePowerStats(t *testing.T) {
+func TestParsePowerStatusNormal(t *testing.T) {
 	t.Parallel()
 
-	var status, device, err = parsePowerStats(testOutputNormal)
+	var status, err = parsePowerStatus(testOutputNormal)
 	assert.NoError(t, err)
+
 	assert.Equal(t, "Normal", status.State)
 	assert.Equal(t, "Utility Power", status.PowerSupplyBy)
 	assert.Equal(t, 122, status.UtilityVoltage)
@@ -89,18 +90,14 @@ func TestParsePowerStats(t *testing.T) {
 	assert.Equal(t, "Blackout", status.LastPowerEvent)
 	assert.Equal(t, time.Date(2023, time.March, 9, 12, 55, 9, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
 	assert.Equal(t, time.Duration(3)*time.Second, status.LastPowerEventDuration)
-	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
-	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
-	assert.Equal(t, 120, device.RatingVoltage)
-	assert.Equal(t, 1000, device.RatingPowerWatts)
-	assert.Equal(t, 1500, device.RatingPowerVA)
 }
 
-func TestParsePowerStatsBlackout(t *testing.T) {
+func TestParsePowerStatusBlackout(t *testing.T) {
 	t.Parallel()
 
-	var status, device, err = parsePowerStats(testOutputBlackout)
+	var status, err = parsePowerStatus(testOutputBlackout)
 	assert.NoError(t, err)
+
 	assert.Equal(t, "Power Failure", status.State)
 	assert.Equal(t, "Battery Power", status.PowerSupplyBy)
 	assert.Equal(t, 0, status.UtilityVoltage)
@@ -115,6 +112,62 @@ func TestParsePowerStatsBlackout(t *testing.T) {
 	assert.Equal(t, "Blackout", status.LastPowerEvent)
 	assert.Equal(t, time.Date(2023, time.March, 9, 13, 38, 21, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
 	assert.Equal(t, time.Duration(0), status.LastPowerEventDuration)
+}
+
+func TestParsePowerStatusLostConn(t *testing.T) {
+	t.Parallel()
+
+	var status, err = parsePowerStatus(testLostConnection)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "Lost Communication", status.State)
+	assert.Equal(t, "", status.PowerSupplyBy)
+	assert.Equal(t, 0, status.UtilityVoltage)
+	assert.Equal(t, 0, status.OutputVoltage)
+	assert.Equal(t, 0, status.BatteryCapacity)
+	assert.Equal(t, time.Duration(0), status.RemainingRuntime)
+	assert.Equal(t, 0, status.LoadWatts)
+	assert.Equal(t, 0, status.LoadPct)
+	assert.Equal(t, "", status.LineInteraction)
+	assert.Equal(t, "Passed", status.TestResult)
+	assert.Equal(t, time.Date(2025, time.January, 21, 13, 13, 5, 0, status.TestResultTime.Location()), status.TestResultTime)
+	assert.Equal(t, "Blackout", status.LastPowerEvent)
+	assert.Equal(t, time.Date(2025, time.January, 23, 12, 33, 9, 0, status.LastPowerEventTime.Location()), status.LastPowerEventTime)
+	assert.Equal(t, time.Duration(0), status.LastPowerEventDuration)
+}
+
+func TestParseDevicePropertiesNormal(t *testing.T) {
+	t.Parallel()
+
+	var device, err = parseDeviceProperties(testOutputNormal)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
+	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
+	assert.Equal(t, 120, device.RatingVoltage)
+	assert.Equal(t, 1000, device.RatingPowerWatts)
+	assert.Equal(t, 1500, device.RatingPowerVA)
+}
+
+func TestParseDevicePropertiesBlackout(t *testing.T) {
+	t.Parallel()
+
+	var device, err = parseDeviceProperties(testOutputBlackout)
+	assert.NoError(t, err)
+
+	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
+	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
+	assert.Equal(t, 120, device.RatingVoltage)
+	assert.Equal(t, 1000, device.RatingPowerWatts)
+	assert.Equal(t, 1500, device.RatingPowerVA)
+}
+
+func TestParseDevicePropertiesLostConn(t *testing.T) {
+	t.Parallel()
+
+	var device, err = parseDeviceProperties(testLostConnection)
+	assert.NoError(t, err)
+
 	assert.Equal(t, "CP1500PFCLCDa", device.ModelName)
 	assert.Equal(t, "CR01802B7H21", device.FirmwareNumber)
 	assert.Equal(t, 120, device.RatingVoltage)
