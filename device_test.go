@@ -16,7 +16,7 @@ func TestGetModelName(t *testing.T) {
 	name, err = getModelName("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to find the model name, err: could not find any matches", err.Error())
-	assert.Equal(t, "", name)
+	assert.Empty(t, name)
 }
 
 func TestGetFirmwareNumber(t *testing.T) {
@@ -29,7 +29,7 @@ func TestGetFirmwareNumber(t *testing.T) {
 	name, err = getFirmwareNumber("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to find the firmware number, err: could not find any matches", err.Error())
-	assert.Equal(t, "", name)
+	assert.Empty(t, name)
 }
 
 func TestGetRatingVoltage(t *testing.T) {

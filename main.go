@@ -95,15 +95,17 @@ func gatherAndSaveStats(cmdPath string) {
 		log.Error(err)
 	}
 
-	if status.State == "Normal" {
+	switch status.State {
+	case "Normal":
 		stateGauge.WithLabelValues(device.ModelName).Set(0)
-	} else if status.State == "Power Failure" {
+	case "Power Failure":
 		stateGauge.WithLabelValues(device.ModelName).Set(1)
 	}
 
-	if status.PowerSupplyBy == "Utility Power" {
+	switch status.PowerSupplyBy {
+	case "Utility Power":
 		powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(0)
-	} else if status.PowerSupplyBy == "Battery Power" {
+	case "Battery Power":
 		powerSuppliedByGauge.WithLabelValues(device.ModelName).Set(1)
 	}
 

@@ -1,3 +1,4 @@
+// Package main contains tests for the cyberpower_exporter application.
 package main
 
 import (
@@ -17,7 +18,7 @@ func TestGetState(t *testing.T) {
 	state, err = getState("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to get the state, err: could not find any matches", err.Error())
-	assert.Equal(t, "", state)
+	assert.Empty(t, state)
 }
 
 func TestGetPowerSupply(t *testing.T) {
@@ -30,7 +31,7 @@ func TestGetPowerSupply(t *testing.T) {
 	powerSupply, err = getPowerSupply("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to get the power supply, err: could not find any matches", err.Error())
-	assert.Equal(t, "", powerSupply)
+	assert.Empty(t, powerSupply)
 }
 
 func TestGetUtilityVoltage(t *testing.T) {
@@ -110,7 +111,7 @@ func TestGetLineInteraction(t *testing.T) {
 	lineInteraction, err = getLineInteraction("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to find the line interaction, err: could not find any matches", err.Error())
-	assert.Equal(t, "", lineInteraction)
+	assert.Empty(t, lineInteraction)
 }
 
 func TestGetTestResult(t *testing.T) {
@@ -125,20 +126,20 @@ func TestGetTestResult(t *testing.T) {
 	result, date, err = getTestResult("Test Result.................. Passed at \n") // missing date string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to find the last test result, err: could not find any matches", err.Error())
-	assert.Equal(t, "", result)
+	assert.Empty(t, result)
 	assert.Equal(t, time.Time{}, date)
 	*/
 
 	result, date, err = getTestResult("Test Result.................. Passed at 2023/03/\n") // bad date string
 	assert.Error(t, err)
 	assert.Equal(t, `unable to pasre date: 2023/03/, err: parsing time "2023/03/" as "2006/01/02 15:04:05": cannot parse "" as "02"`, err.Error())
-	assert.Equal(t, "", result)
+	assert.Empty(t, result)
 	assert.Equal(t, time.Time{}, date)
 
 	result, date, err = getTestResult("testOutputNormal") // bad string
 	assert.Error(t, err)
 	assert.Equal(t, "unable to find the last test result, err: could not find any matches", err.Error())
-	assert.Equal(t, "", result)
+	assert.Empty(t, result)
 	assert.Equal(t, time.Time{}, date)
 }
 
@@ -159,7 +160,7 @@ func TestGetLastPowerEvent(t *testing.T) {
 
 	result, date, duration, err = getLastPowerEvent("testOutputNormal") // bad string
 	assert.Error(t, err)
-	assert.Equal(t, "", result)
+	assert.Empty(t, result)
 	assert.Equal(t, time.Time{}, date)
 	assert.Equal(t, time.Duration(0), duration)
 }
