@@ -1091,7 +1091,7 @@
   "timepicker": {},
   "timezone": "",
   "title": "Cyber Power",
-  "uid": "YOdw8Z-Vz",
+  "uid": "${DS_PROMETHEUS}",
   "version": 6,
   "weekStart": ""
 }
