@@ -32,7 +32,7 @@ release:
       
 archives:
   - id: dist
-    builds:
+    ids:
       - cyberpower_exporter
     name_template: >-
       {{ .ProjectName }}_
@@ -63,7 +63,7 @@ nfpms:
 
     package_name: cyberpower_exporter
 
-    builds:
+    ids:
       - cyberpower_exporter
 
     # Your app's vendor.
