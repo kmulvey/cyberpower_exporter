@@ -1,5 +1,5 @@
 # cyberpower_exporter
-[![Build](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/build.yml/badge.svg)](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/build.yml) [![Release](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/release.yml/badge.svg)](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/release.yml) [![Go Report Card](https://goreportcard.com/badge/github.com/kmulvey/cpwatch)](https://goreportcard.com/report/github.com/kmulvey/cpwatch) [![Go Reference](https://pkg.go.dev/badge/github.com/kmulvey/cpwatch.svg)](https://pkg.go.dev/github.com/kmulvey/cpwatch)
+[![Build](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/build.yml/badge.svg)](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/build.yml) [![Release](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/release.yml/badge.svg)](https://github.com/kmulvey/cyberpower_exporter/actions/workflows/release.yml) [![Go Reference](https://pkg.go.dev/badge/github.com/kmulvey/cpwatch.svg)](https://pkg.go.dev/github.com/kmulvey/cpwatch)
 
 Monitor and store CyberPower UPS statistics.
 
